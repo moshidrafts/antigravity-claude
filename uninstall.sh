@@ -17,6 +17,8 @@ fi
 CLAUDE_DIR="$HOME/.claude"
 SKILLS_DIR="$CLAUDE_DIR/skills"
 DISABLED_DIR="$CLAUDE_DIR/skills-disabled"
+CATALOG_DIR="$CLAUDE_DIR/skills-catalog"
+BIN_DIR="$CLAUDE_DIR/bin"
 
 ALL_SKILLS=(
     "antigravity"
@@ -31,26 +33,34 @@ ALL_SKILLS=(
     "docx"
 )
 
-echo "[1/4] Removing Antigravity skills..."
+echo "[1/5] Removing Antigravity skills and catalog..."
 for s in "${ALL_SKILLS[@]}"; do
     rm -rf "$SKILLS_DIR/$s" 2>/dev/null || true
     rm -rf "$DISABLED_DIR/$s" 2>/dev/null || true
-    echo "  -> Removed: $s"
 done
+rm -rf "$CATALOG_DIR" 2>/dev/null || true
 
-echo "[2/4] Removing CLAUDE.md..."
-if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
+echo "[2/5] Restoring CLAUDE.md..."
+if [ -f "$CLAUDE_DIR/CLAUDE.md.bak" ]; then
+    mv -f "$CLAUDE_DIR/CLAUDE.md.bak" "$CLAUDE_DIR/CLAUDE.md"
+    echo "  -> Restored original CLAUDE.md from backup."
+elif [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
     if grep -q "ANTIGRAVITY OPERATING SYSTEM DIRECTIVE" "$CLAUDE_DIR/CLAUDE.md"; then
         rm -f "$CLAUDE_DIR/CLAUDE.md"
         echo "  -> Antigravity CLAUDE.md removed."
     fi
 fi
 
-echo "[3/4] Clearing prompt caching variables..."
+echo "[3/5] Cleaning up hooks and launchers..."
+rm -f "$CLAUDE_DIR/RTK.md" 2>/dev/null || true
+rm -f "$BIN_DIR/agy-settings" 2>/dev/null || true
+rm -f "$BIN_DIR/settings.sh" 2>/dev/null || true
+
+echo "[4/5] Clearing prompt caching variables..."
 sed -i '' '/ENABLE_PROMPT_CACHING_1H/d' "$HOME/.bashrc" 2>/dev/null || true
 sed -i '' '/ENABLE_PROMPT_CACHING_1H/d' "$HOME/.zshrc" 2>/dev/null || true
 
-echo "[4/4] Removing config..."
+echo "[5/5] Removing config..."
 rm -f "$CLAUDE_DIR/antigravity.json"
 
 echo ""

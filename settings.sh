@@ -4,10 +4,11 @@
 CLAUDE_DIR="$HOME/.claude"
 SKILLS_DIR="$CLAUDE_DIR/skills"
 DISABLED_DIR="$CLAUDE_DIR/skills-disabled"
+CATALOG_DIR="$CLAUDE_DIR/skills-catalog"
 CONFIG_FILE="$CLAUDE_DIR/antigravity.json"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-mkdir -p "$SKILLS_DIR" "$DISABLED_DIR"
+mkdir -p "$SKILLS_DIR" "$DISABLED_DIR" "$CATALOG_DIR"
 
 ALL_SKILLS=(
     "antigravity"
@@ -30,8 +31,8 @@ toggle_skill() {
     elif [ -d "$DISABLED_DIR/$skill" ]; then
         mv "$DISABLED_DIR/$skill" "$SKILLS_DIR/$skill"
         echo "Enabled $skill"
-    elif [ -d "$SCRIPT_DIR/skills/$skill" ]; then
-        cp -r "$SCRIPT_DIR/skills/$skill" "$SKILLS_DIR/$skill"
+    elif [ -d "$CATALOG_DIR/$skill" ]; then
+        cp -r "$CATALOG_DIR/$skill" "$SKILLS_DIR/$skill"
         echo "Enabled $skill"
     fi
 }
@@ -46,6 +47,45 @@ toggle_caching() {
         echo "export ENABLE_PROMPT_CACHING_1H=1" >> "$HOME/.bashrc"
         [ -f "$HOME/.zshrc" ] && echo "export ENABLE_PROMPT_CACHING_1H=1" >> "$HOME/.zshrc"
     fi
+}
+
+run_diagnostics() {
+    clear
+    echo "=========================================================================="
+    echo "                 ANTIGRAVITY SYSTEM DIAGNOSTICS                           "
+    echo "=========================================================================="
+    if command -v claude >/dev/null 2>&1; then
+        echo -e "  \033[32m[+]\033[0m Claude Code CLI:       Found ($(claude --version 2>&1 | head -n 1))"
+    else
+        echo -e "  \033[33m[!]\033[0m Claude Code CLI:       Not found in PATH"
+    fi
+
+    if [ "$ENABLE_PROMPT_CACHING_1H" = "1" ]; then
+        echo -e "  \033[32m[+]\033[0m 1-Hour Prompt Caching: ACTIVE (ENABLE_PROMPT_CACHING_1H=1)"
+    else
+        echo -e "  \033[90m[!]\033[0m 1-Hour Prompt Caching: INACTIVE"
+    fi
+
+    if command -v rtk >/dev/null 2>&1; then
+        echo -e "  \033[32m[+]\033[0m RTK Binary:            Installed ($(rtk --version 2>&1))"
+    else
+        echo -e "  \033[33m[!]\033[0m RTK Binary:            Not installed"
+    fi
+
+    if [ -f "$CLAUDE_DIR/settings.json" ] && grep -q "rtk hook claude" "$CLAUDE_DIR/settings.json"; then
+        echo -e "  \033[32m[+]\033[0m Claude RTK Hook:       CONFIGURED in settings.json"
+    else
+        echo -e "  \033[33m[!]\033[0m Claude RTK Hook:       Not registered"
+    fi
+
+    if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
+        echo -e "  \033[32m[+]\033[0m Global CLAUDE.md:      PRESENT (~/.claude/CLAUDE.md)"
+    else
+        echo -e "  \033[31m[!]\033[0m Global CLAUDE.md:      MISSING"
+    fi
+
+    echo "=========================================================================="
+    read -p "Press Enter to return..." dummy
 }
 
 while true; do
@@ -83,6 +123,7 @@ while true; do
     done
 
     echo " ------------------------------------------------------------------------"
+    echo "  [T] Run System Diagnostics"
     echo "  [C] Copy Custom Instructions to Clipboard"
     echo "  [U] Run Uninstaller"
     echo "  [0] Exit"
@@ -91,7 +132,7 @@ while true; do
 
     case "$opt" in
         1) toggle_caching ;;
-        2) bash "$SCRIPT_DIR/scripts/install-rtk.sh" ;;
+        2) bash "$SCRIPT_DIR/scripts/install-rtk.sh" 2>/dev/null || true ;;
         3) toggle_skill "antigravity" ;;
         4) toggle_skill "antigravity-planner" ;;
         5) toggle_skill "frontend-design" ;;
@@ -102,6 +143,7 @@ while true; do
         10) toggle_skill "xlsx" ;;
         11) toggle_skill "pdf" ;;
         12) toggle_skill "docx" ;;
+        t|T) run_diagnostics ;;
         c|C)
             cat "$SCRIPT_DIR/CLAUDE.md" | pbcopy 2>/dev/null || xclip -selection clipboard < "$SCRIPT_DIR/CLAUDE.md" 2>/dev/null || true
             echo "Copied to clipboard!"

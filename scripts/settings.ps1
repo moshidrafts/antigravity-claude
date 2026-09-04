@@ -7,12 +7,16 @@ $userProfile = [System.Environment]::GetFolderPath('UserProfile')
 $claudeDir = Join-Path $userProfile ".claude"
 $skillsDir = Join-Path $claudeDir "skills"
 $disabledDir = Join-Path $claudeDir "skills-disabled"
+$catalogDir = Join-Path $claudeDir "skills-catalog"
+$binDir = Join-Path $claudeDir "bin"
 $configFile = Join-Path $claudeDir "antigravity.json"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $repoDir = Split-Path -Parent $scriptDir
 
 if (-not (Test-Path $skillsDir)) { New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null }
 if (-not (Test-Path $disabledDir)) { New-Item -ItemType Directory -Force -Path $disabledDir | Out-Null }
+if (-not (Test-Path $catalogDir)) { New-Item -ItemType Directory -Force -Path $catalogDir | Out-Null }
+if (-not (Test-Path $binDir)) { New-Item -ItemType Directory -Force -Path $binDir | Out-Null }
 
 $allSkillNames = @(
     "antigravity",
@@ -33,7 +37,6 @@ function Load-Config {
             return Get-Content $configFile -Raw | ConvertFrom-Json
         } catch {}
     }
-    # Default: everything enabled
     $cfg = [ordered]@{
         prompt_caching_1h = $true
         rtk_proxy = $true
@@ -54,6 +57,7 @@ function Sync-SkillsToConfig($cfg) {
     foreach ($s in $allSkillNames) {
         $enabledPath = Join-Path $skillsDir $s
         $disabledPath = Join-Path $disabledDir $s
+        $catalogPath = Join-Path $catalogDir $s
         $repoPath = Join-Path (Join-Path $repoDir "skills") $s
 
         $isEnabled = $true
@@ -65,6 +69,8 @@ function Sync-SkillsToConfig($cfg) {
             if (-not (Test-Path $enabledPath)) {
                 if (Test-Path $disabledPath) {
                     Move-Item -Path $disabledPath -Destination $enabledPath -Force
+                } elseif (Test-Path $catalogPath) {
+                    Copy-Item -Path $catalogPath -Destination $enabledPath -Recurse -Force
                 } elseif (Test-Path $repoPath) {
                     Copy-Item -Path $repoPath -Destination $enabledPath -Recurse -Force
                 }
@@ -103,13 +109,21 @@ function Toggle-Caching($cfg) {
 
 function Toggle-RTK($cfg) {
     $rtkCmd = Get-Command rtk -ErrorAction SilentlyContinue
-    $rtkLocal = Join-Path $claudeDir "bin\rtk.exe"
+    $rtkLocal = Join-Path $binDir "rtk.exe"
 
     if ((-not $rtkCmd) -and (-not (Test-Path $rtkLocal))) {
         Write-Host "`nRTK is not installed yet. Would you like to install it now? (y/N): " -ForegroundColor Yellow -NoNewline
         $ans = Read-Host
         if ($ans -eq 'y' -or $ans -eq 'Y') {
-            & "$scriptDir\install-rtk.ps1"
+            $rtkInstaller = Join-Path $scriptDir "install-rtk.ps1"
+            if (-not (Test-Path $rtkInstaller)) {
+                $rtkInstaller = Join-Path (Join-Path $repoDir "scripts") "install-rtk.ps1"
+            }
+            if (Test-Path $rtkInstaller) {
+                & $rtkInstaller
+            } else {
+                Write-Host "Could not locate install-rtk.ps1." -ForegroundColor Red
+            }
             $cfg.rtk_proxy = $true
             Save-Config $cfg
             Start-Sleep -Seconds 2
@@ -119,7 +133,111 @@ function Toggle-RTK($cfg) {
 
     $current = [bool]$cfg.rtk_proxy
     $cfg.rtk_proxy = (-not $current)
+    
+    # Toggle hook in settings.json
+    $settingsJson = Join-Path $claudeDir "settings.json"
+    if (Test-Path $settingsJson) {
+        try {
+            $cCfg = Get-Content $settingsJson -Raw | ConvertFrom-Json
+            if ($cfg.rtk_proxy) {
+                $hookObj = [pscustomobject]@{
+                    matcher = "Bash"
+                    hooks = @([pscustomobject]@{ type = "command"; command = "rtk hook claude" })
+                }
+                if ($cCfg.hooks) {
+                    $cCfg.hooks.PreToolUse = @($hookObj)
+                } else {
+                    $cCfg | Add-Member -NotePropertyName "hooks" -NotePropertyValue ([pscustomobject]@{ PreToolUse = @($hookObj) }) -Force
+                }
+            } else {
+                if ($cCfg.hooks) {
+                    $cCfg.PSObject.Properties.Remove("hooks")
+                }
+            }
+            $cCfg | ConvertTo-Json -Depth 10 | Set-Content $settingsJson -Encoding UTF8
+        } catch {}
+    }
+    
     Save-Config $cfg
+}
+
+function Run-Diagnostics {
+    Clear-Host
+    Write-Host "==========================================================================" -ForegroundColor Cyan
+    Write-Host "                 ANTIGRAVITY SYSTEM DIAGNOSTICS                           " -ForegroundColor Cyan
+    Write-Host "==========================================================================" -ForegroundColor Cyan
+
+    # Claude CLI
+    $claudeCmd = Get-Command claude -ErrorAction SilentlyContinue
+    if ($claudeCmd) {
+        $cVer = (claude --version 2>&1) -join " "
+        Write-Host "  [+] Claude Code CLI:       Found ($cVer)" -ForegroundColor Green
+    } else {
+        Write-Host "  [!] Claude Code CLI:       Not found in PATH (Install via: npm i -g @anthropic-ai/claude-code)" -ForegroundColor Yellow
+    }
+
+    # Prompt Caching
+    $cacheVar = [System.Environment]::GetEnvironmentVariable('ENABLE_PROMPT_CACHING_1H', 'User')
+    if ($cacheVar -eq '1') {
+        Write-Host "  [+] 1-Hour Prompt Caching: ACTIVE (ENABLE_PROMPT_CACHING_1H=1)" -ForegroundColor Green
+    } else {
+        Write-Host "  [!] 1-Hour Prompt Caching: INACTIVE" -ForegroundColor DarkGray
+    }
+
+    # RTK
+    $rtkCmd = Get-Command rtk -ErrorAction SilentlyContinue
+    $rtkLocal = Join-Path $binDir "rtk.exe"
+    if ($rtkCmd -or (Test-Path $rtkLocal)) {
+        $rtkVer = (& (if ($rtkCmd) { "rtk" } else { $rtkLocal }) --version 2>&1) -join " "
+        Write-Host "  [+] RTK Binary:            Installed ($rtkVer)" -ForegroundColor Green
+    } else {
+        Write-Host "  [!] RTK Binary:            Not installed" -ForegroundColor Yellow
+    }
+
+    # Hook in settings.json
+    $settingsJson = Join-Path $claudeDir "settings.json"
+    if (Test-Path $settingsJson) {
+        $sContent = Get-Content $settingsJson -Raw
+        if ($sContent -like "*rtk hook claude*") {
+            Write-Host "  [+] Claude RTK Hook:       CONFIGURED in settings.json" -ForegroundColor Green
+        } else {
+            Write-Host "  [!] Claude RTK Hook:       Not registered in settings.json" -ForegroundColor Yellow
+        }
+    } else {
+        Write-Host "  [!] Claude settings.json:  Not found" -ForegroundColor DarkGray
+    }
+
+    # CLAUDE.md
+    $claudeMd = Join-Path $claudeDir "CLAUDE.md"
+    if (Test-Path $claudeMd) {
+        Write-Host "  [+] Global CLAUDE.md:      PRESENT (~/.claude/CLAUDE.md)" -ForegroundColor Green
+    } else {
+        Write-Host "  [!] Global CLAUDE.md:      MISSING" -ForegroundColor Red
+    }
+
+    # Skills count
+    $activeCount = 0
+    $disabledCount = 0
+    foreach ($s in $allSkillNames) {
+        if (Test-Path (Join-Path $skillsDir $s)) { $activeCount++ }
+        if (Test-Path (Join-Path $disabledDir $s)) { $disabledCount++ }
+    }
+    Write-Host "  [+] Active Skills:         $activeCount of $($allSkillNames.Count) enabled" -ForegroundColor Green
+    if ($disabledCount -gt 0) {
+        Write-Host "  [!] Disabled Skills:       $disabledCount disabled" -ForegroundColor Yellow
+    }
+
+    # Global Command Check
+    $agyCmd = Get-Command agy-settings -ErrorAction SilentlyContinue
+    if ($agyCmd -or (Test-Path (Join-Path $binDir "agy-settings.bat"))) {
+        Write-Host "  [+] Global agy-settings:   AVAILABLE ('agy-settings' in any terminal)" -ForegroundColor Green
+    } else {
+        Write-Host "  [!] Global agy-settings:   Not linked" -ForegroundColor Yellow
+    }
+
+    Write-Host "==========================================================================" -ForegroundColor Cyan
+    Write-Host "`nPress any key to return to settings..." -ForegroundColor Yellow
+    $null = [System.Console]::ReadKey($true)
 }
 
 function Copy-CustomInstructions {
@@ -146,8 +264,12 @@ Never dump long plans, task checklists, or extensive code into chat. Always gene
 - Always use language identifiers on code blocks with file paths on line 1.
 - Use targeted chunk edits rather than dumping entire files.
 "@
-    Set-Clipboard -Value $instructions
-    Write-Host "`n[COPIED] Custom Instructions copied to Windows Clipboard!" -ForegroundColor Green
+    try {
+        Set-Clipboard -Value $instructions
+        Write-Host "`n[COPIED] Custom Instructions copied to Windows Clipboard!" -ForegroundColor Green
+    } catch {
+        Write-Host "`n[NOTE] Clipboard unavailable. Please copy instructions from README or CLAUDE.md." -ForegroundColor Yellow
+    }
     Start-Sleep -Seconds 2
 }
 
@@ -161,7 +283,7 @@ while ($true) {
     $rtkActive = [bool]$cfg.rtk_proxy
     $graphifyActive = [bool]$cfg.graphify
 
-    $rtkInstalled = (Get-Command rtk -ErrorAction SilentlyContinue) -or (Test-Path (Join-Path $claudeDir "bin\rtk.exe"))
+    $rtkInstalled = (Get-Command rtk -ErrorAction SilentlyContinue) -or (Test-Path (Join-Path $binDir "rtk.exe"))
 
     Write-Host "==========================================================================" -ForegroundColor Cyan
     Write-Host "                 ANTIGRAVITY CONFIGURATION & SETTINGS                     " -ForegroundColor Cyan
@@ -169,7 +291,6 @@ while ($true) {
     Write-Host "  Customize token-saving flags, companion proxies, and active skills.      " -ForegroundColor DarkGray
     Write-Host "  (All changes take effect immediately across Claude sessions)            `n" -ForegroundColor DarkGray
 
-    # Core Optimizations
     Write-Host " TOKEN OPTIMIZATIONS & COMPANIONS:" -ForegroundColor Yellow
     
     $cColor = if ($cachingActive) { "Green" } else { "DarkGray" }
@@ -202,12 +323,13 @@ while ($true) {
 
     Write-Host "`n ------------------------------------------------------------------------" -ForegroundColor DarkGray
     Write-Host " ACTIONS:" -ForegroundColor Yellow
+    Write-Host "  [T] Run System Diagnostics" -ForegroundColor Green
     Write-Host "  [C] Copy Claude Desktop Instructions to Clipboard" -ForegroundColor Cyan
     Write-Host "  [U] Uninstall Antigravity Suite" -ForegroundColor Red
     Write-Host "  [0] Exit Settings" -ForegroundColor White
     Write-Host "==========================================================================" -ForegroundColor Cyan
 
-    Write-Host -NoNewline "`nSelect an option to toggle (0-13, C, U): "
+    Write-Host -NoNewline "`nSelect an option to toggle (0-13, T, C, U): "
     $choice = Read-Host
 
     switch ($choice.ToUpper().Trim()) {
@@ -227,9 +349,18 @@ while ($true) {
         "11" { Toggle-Skill "xlsx" $cfg }
         "12" { Toggle-Skill "pdf" $cfg }
         "13" { Toggle-Skill "docx" $cfg }
+        "T"  { Run-Diagnostics }
         "C"  { Copy-CustomInstructions }
         "U"  {
-            & "$repoDir\uninstall.bat"
+            $uninstaller = Join-Path $repoDir "uninstall.bat"
+            if (-not (Test-Path $uninstaller)) {
+                $uninstaller = Join-Path $binDir "uninstall.bat"
+            }
+            if (Test-Path $uninstaller) {
+                & $uninstaller
+            } else {
+                Write-Host "Uninstaller script not found." -ForegroundColor Red
+            }
             exit
         }
         "0"  { exit }

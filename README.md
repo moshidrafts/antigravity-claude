@@ -32,10 +32,11 @@
    ```
 2. Double-click **`setup-antigravity-claude.bat`**.
 3. **What happens automatically:**
-   - Deploys all 10 skills to `~/.claude/skills/`.
-   - Injects the global `CLAUDE.md` operating directive.
+   - Deploys all 10 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
+   - Injects the global `CLAUDE.md` operating directive. *(If you already have an existing `CLAUDE.md`, the installer will ask whether to **[O]verwrite** with a `.bak` backup, **[A]ppend**, or **[C]ancel**!)*
+   - Registers the global **`agy-settings`** CLI command in your PATH.
    - Automatically activates **1-Hour Prompt Caching** (`ENABLE_PROMPT_CACHING_1H=1`).
-   - Copies Custom Instructions to your clipboard and prints the next steps clearly in your terminal!
+   - Copies Custom Instructions to your clipboard and prints next steps clearly in your terminal!
 4. Open **Claude Desktop** $\rightarrow$ **Settings** $\rightarrow$ **Custom Instructions** and press <kbd>Ctrl</kbd> + <kbd>V</kbd>.
 
 ### macOS & Linux (1-Line Command)
@@ -45,11 +46,11 @@ git clone https://github.com/moshidrafts/antigravity-claude.git && cd antigravit
 
 ---
 
-## 🎛️ Interactive Settings Manager (`settings.bat` / `settings.sh`)
+## 🎛️ Interactive Settings Manager (`agy-settings`)
 
-Don't want all skills running? Need to toggle prompt caching or install companion tools? 
+Don't want all skills running? Need to toggle prompt caching or run system diagnostics?
 
-Simply run **`settings.bat`** (Windows) or **`./settings.sh`** (macOS/Linux) to launch the live interactive terminal dashboard:
+Once installed, simply type **`agy-settings`** from **any terminal on your PC** (or run `settings.bat` in this folder) to open the interactive dashboard:
 
 ```text
 ==========================================================================
@@ -75,6 +76,7 @@ Simply run **`settings.bat`** (Windows) or **`./settings.sh`** (macOS/Linux) to 
 
  ------------------------------------------------------------------------
  ACTIONS:
+  [T] Run System Diagnostics
   [C] Copy Claude Desktop Instructions to Clipboard
   [U] Uninstall Antigravity Suite
   [0] Exit Settings
@@ -82,7 +84,8 @@ Simply run **`settings.bat`** (Windows) or **`./settings.sh`** (macOS/Linux) to 
 ```
 
 - **Everything is ENABLED by default** for maximum power.
-- Toggle any skill ON/OFF in real time (moves skills cleanly between `~/.claude/skills/` and `~/.claude/skills-disabled/`).
+- **1-Click Diagnostics `[T]`**: Instantly verifies that your Claude CLI, RTK proxy hook, prompt caching environment, and skills are active.
+- **Zero-Dependency Toggling**: Uses a self-contained `~/.claude/skills-catalog/`, so you can toggle skills anytime even if you delete the cloned repo folder.
 - State is saved persistently in `~/.claude/antigravity.json`.
 
 ---

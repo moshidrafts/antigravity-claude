@@ -3,6 +3,11 @@
 title Antigravity Protocol Suite for Claude (Setup)
 cls
 powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-Expression (Get-Content -Raw '%~f0')"
+if %ERRORLEVEL% NEQ 0 (
+    echo.
+    echo Setup encountered an unexpected error.
+    pause
+)
 exit /b %ERRORLEVEL%
 : #>
 
@@ -16,59 +21,122 @@ Write-Host "====================================================================
 $userProfile = [System.Environment]::GetFolderPath('UserProfile')
 $claudeDir = Join-Path $userProfile ".claude"
 $skillsDir = Join-Path $claudeDir "skills"
+$catalogDir = Join-Path $claudeDir "skills-catalog"
+$binDir = Join-Path $claudeDir "bin"
 $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $localSkills = Join-Path $scriptDir "skills"
 
 # 1. Directories
-Write-Host "`n[+] Deploying 10 skills to $skillsDir..." -ForegroundColor Yellow -NoNewline
 New-Item -ItemType Directory -Force -Path $claudeDir | Out-Null
 New-Item -ItemType Directory -Force -Path $skillsDir | Out-Null
+New-Item -ItemType Directory -Force -Path $catalogDir | Out-Null
+New-Item -ItemType Directory -Force -Path $binDir | Out-Null
 
+# 2. Deploy Skills & Catalog
+Write-Host "`n[1/6] Deploying 10 skills to $skillsDir and $catalogDir..." -ForegroundColor Yellow -NoNewline
 if (Test-Path $localSkills) {
     Get-ChildItem -Path $localSkills -Directory | ForEach-Object {
         $target = Join-Path $skillsDir $_.Name
+        $catTarget = Join-Path $catalogDir $_.Name
         Copy-Item -Path $_.FullName -Destination $target -Recurse -Force
+        Copy-Item -Path $_.FullName -Destination $catTarget -Recurse -Force
     }
 }
 Write-Host " [DONE]" -ForegroundColor Green
 
-# 2. CLAUDE.md
-Write-Host "[+] Configuring global CLAUDE.md..." -ForegroundColor Yellow -NoNewline
+# 3. Global CLAUDE.md Handling (Conflict Resolution: Overwrite / Append / Cancel)
+Write-Host "[2/6] Configuring global CLAUDE.md..." -ForegroundColor Yellow
 $claudeMdSource = Join-Path $scriptDir "CLAUDE.md"
 $claudeMdDest = Join-Path $claudeDir "CLAUDE.md"
-if (Test-Path $claudeMdSource) {
-    Copy-Item -Path $claudeMdSource -Destination $claudeMdDest -Force
-}
-Write-Host "           [DONE]" -ForegroundColor Green
 
-# 3. Prompt Caching
-Write-Host "[+] Enabling 1-Hour Prompt Caching (ENABLE_PROMPT_CACHING_1H=1)..." -ForegroundColor Yellow -NoNewline
+if (Test-Path $claudeMdDest) {
+    $existingContent = Get-Content $claudeMdDest -Raw
+    if ($existingContent -notlike "*ANTIGRAVITY OPERATING SYSTEM DIRECTIVE*") {
+        Write-Host "`n  [!] An existing CLAUDE.md was detected at: $claudeMdDest" -ForegroundColor Magenta
+        Write-Host "      How would you like to handle this?" -ForegroundColor Yellow
+        Write-Host "      [O] Overwrite (recommended - backs up existing file to CLAUDE.md.bak)" -ForegroundColor White
+        Write-Host "      [A] Append Antigravity Protocol to the end of existing file" -ForegroundColor White
+        Write-Host "      [C] Cancel / Exit setup without modifying CLAUDE.md" -ForegroundColor White
+        
+        $mdChoice = ""
+        while ($mdChoice -notmatch '^[OAC]$') {
+            Write-Host -NoNewline "      Select an option (O/A/C): " -ForegroundColor Yellow
+            $mdChoice = (Read-Host).Trim().ToUpper()
+        }
+        
+        if ($mdChoice -eq 'C') {
+            Write-Host "`nSetup cancelled. No modifications were made to CLAUDE.md." -ForegroundColor Yellow
+            exit 0
+        } elseif ($mdChoice -eq 'A') {
+            Copy-Item $claudeMdDest "$claudeMdDest.bak" -Force
+            $sourceContent = Get-Content $claudeMdSource -Raw
+            $merged = $existingContent + "`n`n" + $sourceContent
+            [System.IO.File]::WriteAllText($claudeMdDest, $merged, [System.Text.Encoding]::UTF8)
+            Write-Host "  -> Antigravity appended to existing CLAUDE.md (backup: CLAUDE.md.bak)" -ForegroundColor Green
+        } elseif ($mdChoice -eq 'O') {
+            Copy-Item $claudeMdDest "$claudeMdDest.bak" -Force
+            Copy-Item $claudeMdSource $claudeMdDest -Force
+            Write-Host "  -> CLAUDE.md overwritten (original backed up to CLAUDE.md.bak)" -ForegroundColor Green
+        }
+    } else {
+        Copy-Item $claudeMdSource $claudeMdDest -Force
+        Write-Host "  -> Updated existing Antigravity CLAUDE.md." -ForegroundColor Green
+    }
+} else {
+    Copy-Item $claudeMdSource $claudeMdDest -Force
+    Write-Host "  -> Global CLAUDE.md deployed successfully." -ForegroundColor Green
+}
+
+# 4. Prompt Caching
+Write-Host "[3/6] Enabling 1-Hour Prompt Caching (ENABLE_PROMPT_CACHING_1H=1)..." -ForegroundColor Yellow -NoNewline
 [System.Environment]::SetEnvironmentVariable('ENABLE_PROMPT_CACHING_1H', '1', 'User')
 $env:ENABLE_PROMPT_CACHING_1H = '1'
 Write-Host " [DONE]" -ForegroundColor Green
 
-# 4. Default Config JSON
-$configFile = Join-Path $claudeDir "antigravity.json"
-$cfg = [ordered]@{
-    prompt_caching_1h = $true
-    rtk_proxy = $true
-    graphify = $false
-    skills = [ordered]@{
-        "antigravity" = $true
-        "antigravity-planner" = $true
-        "frontend-design" = $true
-        "test-driven-development" = $true
-        "systematic-debugging" = $true
-        "verification-before-completion" = $true
-        "web-artifacts-builder" = $true
-        "xlsx" = $true
-        "pdf" = $true
-        "docx" = $true
-    }
-}
-$cfg | ConvertTo-Json -Depth 5 | Set-Content $configFile -Encoding UTF8
+# 5. Global CLI Commands (agy-settings & antigravity-settings in PATH)
+Write-Host "[4/6] Registering global 'agy-settings' command in PATH..." -ForegroundColor Yellow -NoNewline
+$settingsPs1Source = Join-Path $scriptDir "scripts\settings.ps1"
+$settingsPs1Dest = Join-Path $binDir "settings.ps1"
+Copy-Item $settingsPs1Source $settingsPs1Dest -Force
 
-# 5. Instructions Copy
+$agyBatContent = "@echo off`r`npowershell -NoProfile -ExecutionPolicy Bypass -File `"%~dp0settings.ps1`""
+Set-Content -Path (Join-Path $binDir "agy-settings.bat") -Value $agyBatContent
+Set-Content -Path (Join-Path $binDir "antigravity-settings.bat") -Value $agyBatContent
+
+$userPath = [System.Environment]::GetEnvironmentVariable('PATH', 'User')
+if ($userPath -notlike "*$binDir*") {
+    $newUserPath = "$userPath;$binDir"
+    [System.Environment]::SetEnvironmentVariable('PATH', $newUserPath, 'User')
+}
+if ($env:PATH -notlike "*$binDir*") {
+    $env:PATH = "$env:PATH;$binDir"
+}
+Write-Host " [DONE]" -ForegroundColor Green
+
+# 6. Default Config JSON
+$configFile = Join-Path $claudeDir "antigravity.json"
+if (-not (Test-Path $configFile)) {
+    $cfg = [ordered]@{
+        prompt_caching_1h = $true
+        rtk_proxy = $true
+        graphify = $false
+        skills = [ordered]@{
+            "antigravity" = $true
+            "antigravity-planner" = $true
+            "frontend-design" = $true
+            "test-driven-development" = $true
+            "systematic-debugging" = $true
+            "verification-before-completion" = $true
+            "web-artifacts-builder" = $true
+            "xlsx" = $true
+            "pdf" = $true
+            "docx" = $true
+        }
+    }
+    $cfg | ConvertTo-Json -Depth 5 | Set-Content $configFile -Encoding UTF8
+}
+
+# 7. Instructions Copy with Safety
 $instructions = @"
 # ANTIGRAVITY PROTOCOL & ARTIFACT DIRECTIVE
 
@@ -92,9 +160,13 @@ Never dump long plans, task checklists, or extensive code into chat. Always gene
 - Always use language identifiers on code blocks with file paths on line 1.
 - Use targeted chunk edits rather than dumping entire files.
 "@
-Set-Clipboard -Value $instructions
-Write-Host "[+] Copying Custom Instructions to Windows Clipboard..." -ForegroundColor Yellow -NoNewline
-Write-Host "  [COPIED]" -ForegroundColor Green
+
+try {
+    Set-Clipboard -Value $instructions
+    Write-Host "[5/6] Copying Custom Instructions to Windows Clipboard... [COPIED]" -ForegroundColor Green
+} catch {
+    Write-Host "[5/6] Copying Custom Instructions to Windows Clipboard... [MANUAL COPY]" -ForegroundColor Yellow
+}
 
 # -------------------------------------------------------------
 # STEP 1: DISPLAY CUSTOM INSTRUCTIONS
@@ -131,17 +203,17 @@ Write-Host "  5. Open your terminal, run 'claude', and start building!" -Foregro
 # STEP 3: SETTINGS & CUSTOMIZATION
 # -------------------------------------------------------------
 Write-Host "`n==========================================================================" -ForegroundColor Cyan
-Write-Host "                    3. SETTINGS & CUSTOMIZATION                           " -ForegroundColor Cyan
+Write-Host "                    3. SETTINGS & GLOBAL COMMAND                          " -ForegroundColor Cyan
 Write-Host "==========================================================================" -ForegroundColor Cyan
 Write-Host "  * All 10 skills and 1-hour prompt caching are ENABLED by default." -ForegroundColor Green
-Write-Host "  * Want to toggle individual skills, disable caching, or install RTK?" -ForegroundColor Gray
-Write-Host "  * Simply run 'settings.bat' anytime from this folder!" -ForegroundColor Yellow
+Write-Host "  * You can now run 'agy-settings' from ANY terminal on your computer!" -ForegroundColor Yellow
+Write-Host "  * Or run 'settings.bat' right here in this folder." -ForegroundColor Gray
 Write-Host "==========================================================================" -ForegroundColor Cyan
 
 Write-Host "`nPress [S] to open Settings now, or press Enter to finish: " -ForegroundColor Yellow -NoNewline
 $opt = Read-Host
 if ($opt -eq 's' -or $opt -eq 'S') {
-    & "$scriptDir\scripts\settings.ps1"
+    & "$binDir\settings.ps1"
 } else {
     Write-Host "`nInstallation complete! Enjoy Antigravity for Claude.`n" -ForegroundColor Green
 }
