@@ -1,4 +1,4 @@
-# scripts/settings.ps1
+﻿# scripts/settings.ps1
 # Interactive Settings Manager for Antigravity-Claude Suite
 
 $ErrorActionPreference = "Continue"
@@ -267,7 +267,9 @@ function Run-Diagnostics {
     $rtkCmd = Get-Command rtk -ErrorAction SilentlyContinue
     $rtkLocal = Join-Path $binDir "rtk.exe"
     if ($rtkCmd -or (Test-Path $rtkLocal)) {
-        $rtkVer = (& (if ($rtkCmd) { "rtk" } else { $rtkLocal }) --version 2>&1) -join " "
+        $rtkExeTarget = $rtkLocal
+        if ($rtkCmd) { $rtkExeTarget = "rtk" }
+        $rtkVer = (& $rtkExeTarget --version 2>&1) -join " "
         Write-Host "  [+] RTK Binary:            Installed ($rtkVer)" -ForegroundColor Green
     } else {
         Write-Host "  [!] RTK Binary:            Not installed" -ForegroundColor Yellow
