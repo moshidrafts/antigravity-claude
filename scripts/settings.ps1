@@ -1,4 +1,4 @@
-﻿# scripts/settings.ps1
+# scripts/settings.ps1
 # Interactive Settings Manager for Antigravity-Claude Suite
 
 $ErrorActionPreference = "Continue"
@@ -42,6 +42,14 @@ $skillSubtitles = @{
     "xlsx"                           = "Anthropic: Native Excel spreadsheet creation, formulas & data"
     "pdf"                            = "Anthropic: PDF text/table extraction, page merging & OCR"
     "docx"                           = "Anthropic: Word document formatting, styling & template generator"
+}
+
+function Wait-KeyPress {
+    try {
+        $null = [System.Console]::ReadKey($true)
+    } catch {
+        $null = Read-Host
+    }
 }
 
 function Load-Config {
