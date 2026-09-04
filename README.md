@@ -21,21 +21,69 @@
 
 ---
 
-## 📦 1-Click Installation
+---
 
-### Windows (1-Click Double-Click)
-1. Download or clone this repository:
+## 📦 1-Click Installation & Setup
+
+### Windows (1-Click Setup)
+1. Clone or download this repository:
    ```bash
    git clone https://github.com/moshidrafts/antigravity-claude.git
    ```
 2. Double-click **`setup-antigravity-claude.bat`**.
-3. **Done!** The script automatically deploys all skills to `~/.claude/` and **copies the Custom Instructions to your clipboard**.
+3. **What happens automatically:**
+   - Deploys all 10 skills to `~/.claude/skills/`.
+   - Injects the global `CLAUDE.md` operating directive.
+   - Automatically activates **1-Hour Prompt Caching** (`ENABLE_PROMPT_CACHING_1H=1`).
+   - Copies Custom Instructions to your clipboard and prints the next steps clearly in your terminal!
 4. Open **Claude Desktop** $\rightarrow$ **Settings** $\rightarrow$ **Custom Instructions** and press <kbd>Ctrl</kbd> + <kbd>V</kbd>.
 
-### macOS & Linux (1-Line Terminal Command)
+### macOS & Linux (1-Line Command)
 ```bash
 git clone https://github.com/moshidrafts/antigravity-claude.git && cd antigravity-claude && chmod +x install.sh && ./install.sh
 ```
+
+---
+
+## 🎛️ Interactive Settings Manager (`settings.bat` / `settings.sh`)
+
+Don't want all skills running? Need to toggle prompt caching or install companion tools? 
+
+Simply run **`settings.bat`** (Windows) or **`./settings.sh`** (macOS/Linux) to launch the live interactive terminal dashboard:
+
+```text
+==========================================================================
+                 ANTIGRAVITY CONFIGURATION & SETTINGS                     
+==========================================================================
+ TOKEN OPTIMIZATIONS & COMPANIONS:
+  [1] 1-Hour Prompt Caching           [ ENABLED  ]  (ENABLE_PROMPT_CACHING_1H)
+  [2] RTK (Rust Token Killer)          [ ENABLED  ]  (Compresses noisy CLI output)
+  [3] Graphify AST Codebase Graph     [ DISABLED ]  (Knowledge graph mapper)
+
+ ------------------------------------------------------------------------
+ BUNDLED SKILLS DIRECTORY:
+  [ 4] antigravity                    [ ENABLED  ]
+  [ 5] antigravity-planner            [ ENABLED  ]
+  [ 6] frontend-design                [ ENABLED  ]
+  [ 7] test-driven-development        [ ENABLED  ]
+  [ 8] systematic-debugging           [ ENABLED  ]
+  [ 9] verification-before-completion [ ENABLED  ]
+  [10] web-artifacts-builder          [ ENABLED  ]
+  [11] xlsx                           [ ENABLED  ]
+  [12] pdf                            [ ENABLED  ]
+  [13] docx                           [ ENABLED  ]
+
+ ------------------------------------------------------------------------
+ ACTIONS:
+  [C] Copy Claude Desktop Instructions to Clipboard
+  [U] Uninstall Antigravity Suite
+  [0] Exit Settings
+==========================================================================
+```
+
+- **Everything is ENABLED by default** for maximum power.
+- Toggle any skill ON/OFF in real time (moves skills cleanly between `~/.claude/skills/` and `~/.claude/skills-disabled/`).
+- State is saved persistently in `~/.claude/antigravity.json`.
 
 ---
 
@@ -56,29 +104,18 @@ All skills are installed directly into your `~/.claude/skills/` folder:
 
 ---
 
-## 💡 Pro Token-Saving Techniques & Hacks
+## 💡 Automated Token-Saving Companions & Hacks
 
-Based on popular optimizations in the developer community:
+### 1. 1-Hour Prompt Caching (Automated)
+Both `setup-antigravity-claude.bat` and `install.sh` automatically set `ENABLE_PROMPT_CACHING_1H=1`. Anthropic keeps your system prompts and repository context cached in memory for 1 hour, saving up to 90% on subsequent prompt tokens.
 
-### 1. Enable 1-Hour Prompt Caching
-Anthropic supports 1-hour prompt caching for system prompts and repository contexts. Enable it in your environment:
-- **Windows (PowerShell):**
-  ```powershell
-  [System.Environment]::SetEnvironmentVariable('ENABLE_PROMPT_CACHING_1H', '1', 'User')
-  ```
-- **macOS / Linux:**
-  ```bash
-  export ENABLE_PROMPT_CACHING_1H=1
-  ```
+### 2. RTK (Rust Token Killer) Integration
+[RTK](https://github.com/rtk-ai/rtk) is a high-speed CLI proxy that strips boilerplate and progress bar noise from bash tools (`git`, `cargo`, `pytest`, etc.), reducing token consumption by 60–90%.
+- **1-Click Install:** Run `scripts/install-rtk.ps1` (or `./scripts/install-rtk.sh` on Unix), or select option `[2]` inside `settings.bat`.
+- Automatically configures Claude Code hooks in `~/.claude/settings.json`.
 
-### 2. Recommended Companion Tools
-- **[RTK (Run-Time Kompactor)](https://github.com/rtk-ai/rtk):** Automatically filters and trims noisy bash command outputs (reducing token consumption by 60–90%).
-- **[Headroom](https://github.com/headroomlabs-ai/headroom):** Compresses conversation history before API ingestion.
-- **[Graphify](https://github.com/Graphify-Labs/graphify):** AST codebase graph mapping so Claude avoids repetitive file grepping.
-
-### 3. Context Maintenance
-- Use `/compact` every 20-30 turns to condense conversational memory.
-- Use `/clear` between unrelated tasks.
+### 3. Safe Uninstaller (`uninstall.bat` / `uninstall.sh`)
+Need to revert? Double-click `uninstall.bat` or run `./uninstall.sh`. It safely cleans up all Antigravity skills, resets environment variables, and preserves any personal custom skills outside this suite.
 
 ---
 
