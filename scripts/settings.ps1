@@ -1,4 +1,4 @@
-# scripts/settings.ps1
+﻿# scripts/settings.ps1
 # Interactive Settings Manager for Antigravity-Claude Suite
 
 $ErrorActionPreference = "Continue"
@@ -363,17 +363,17 @@ while ($true) {
     $cColor = if ($cachingActive) { "Green" } else { "DarkGray" }
     $cText  = if ($cachingActive) { "[ ENABLED  ]" } else { "[ DISABLED ]" }
     Write-Host "  [1] 1-Hour Prompt Caching           $cText" -ForegroundColor $cColor
-    Write-Host "      └─ Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)" -ForegroundColor DarkGray
+    Write-Host "      |-- Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)" -ForegroundColor DarkGray
 
     $rColor = if ($rtkActive -and $rtkInstalled) { "Green" } elseif ($rtkInstalled) { "DarkGray" } else { "Yellow" }
     $rText  = if (-not $rtkInstalled) { "[ NOT INSTALLED ]" } elseif ($rtkActive) { "[ ENABLED  ]" } else { "[ DISABLED ]" }
     Write-Host "  [2] RTK (Rust Token Killer)          $rText" -ForegroundColor $rColor
-    Write-Host "      └─ Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)" -ForegroundColor DarkGray
+    Write-Host "      |-- Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)" -ForegroundColor DarkGray
 
     $gColor = if ($graphifyActive) { "Green" } else { "DarkGray" }
     $gText  = if ($graphifyActive) { "[ ENABLED  ]" } else { "[ DISABLED ]" }
     Write-Host "  [3] Graphify AST Codebase Graph     $gText" -ForegroundColor $gColor
-    Write-Host "      └─ Pre-maps codebase symbol relationships so Claude doesn't burn tokens grepping" -ForegroundColor DarkGray
+    Write-Host "      |-- Pre-maps codebase symbol relationships so Claude does not burn tokens grepping" -ForegroundColor DarkGray
 
     Write-Host "`n ------------------------------------------------------------------------" -ForegroundColor DarkGray
     Write-Host " BUNDLED SKILLS DIRECTORY:" -ForegroundColor Yellow
@@ -391,7 +391,7 @@ while ($true) {
         
         $sub = $skillSubtitles[$s]
         if ($sub) {
-            Write-Host "      └─ $sub" -ForegroundColor DarkGray
+            Write-Host "      |-- $sub" -ForegroundColor DarkGray
         }
         $i++
     }

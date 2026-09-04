@@ -145,17 +145,17 @@ while true; do
     else
         echo -e "  [1] 1-Hour Prompt Caching           \033[90m[ DISABLED ]\033[0m"
     fi
-    echo -e "      \033[90m└─ Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)\033[0m"
+    echo -e "      \033[90m|-- Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)\033[0m"
 
     if command -v rtk >/dev/null 2>&1; then
         echo -e "  [2] RTK (Rust Token Killer)          \033[32m[ INSTALLED ]\033[0m"
     else
         echo -e "  [2] RTK (Rust Token Killer)          \033[33m[ NOT INSTALLED ]\033[0m"
     fi
-    echo -e "      \033[90m└─ Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)\033[0m"
+    echo -e "      \033[90m|-- Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)\033[0m"
 
     echo -e "  [3] Graphify AST Codebase Graph     \033[90m[ OPTIONAL ]\033[0m"
-    echo -e "      \033[90m└─ Pre-maps codebase symbol relationships so Claude doesn't burn tokens grepping\033[0m"
+    echo -e "      \033[90m|-- Pre-maps codebase symbol relationships so Claude doesn't burn tokens grepping\033[0m"
 
     echo " ------------------------------------------------------------------------"
     echo " BUNDLED SKILLS:"
@@ -168,7 +168,7 @@ while true; do
         fi
         desc="${SKILL_DESC[$s]}"
         if [ -n "$desc" ]; then
-            printf "      \033[90m└─ %s\033[0m\n" "$desc"
+            printf "      \033[90m|-- %s\033[0m\n" "$desc"
         fi
         ((idx++))
     done
