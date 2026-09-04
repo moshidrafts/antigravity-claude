@@ -31,6 +31,19 @@ $allSkillNames = @(
     "docx"
 )
 
+$skillSubtitles = @{
+    "antigravity"                    = "Core zero-fluff protocol & targeted chunk-diff rules"
+    "antigravity-planner"            = "Mandatory Mermaid architecture flowcharts & approval gates"
+    "frontend-design"                = "Anthropic boutique visual design standards (anti-AI slop)"
+    "test-driven-development"        = "obra/superpowers: Enforces failing tests before writing code"
+    "systematic-debugging"           = "obra/superpowers: 4-phase root cause analysis before fixes"
+    "verification-before-completion" = "obra/superpowers: Requires automated test proof before claims"
+    "web-artifacts-builder"          = "Anthropic: React 18 + Tailwind + shadcn/ui multi-component apps"
+    "xlsx"                           = "Anthropic: Native Excel spreadsheet creation, formulas & data"
+    "pdf"                            = "Anthropic: PDF text/table extraction, page merging & OCR"
+    "docx"                           = "Anthropic: Word document formatting, styling & template generator"
+}
+
 function Load-Config {
     if (Test-Path $configFile) {
         try {
@@ -134,7 +147,6 @@ function Toggle-RTK($cfg) {
     $current = [bool]$cfg.rtk_proxy
     $cfg.rtk_proxy = (-not $current)
     
-    # Toggle hook in settings.json
     $settingsJson = Join-Path $claudeDir "settings.json"
     if (Test-Path $settingsJson) {
         try {
@@ -161,22 +173,82 @@ function Toggle-RTK($cfg) {
     Save-Config $cfg
 }
 
+function Show-FeatureGuide {
+    Clear-Host
+    Write-Host "==========================================================================" -ForegroundColor Cyan
+    Write-Host "               IN-DEPTH FEATURE & SETTINGS GUIDE                          " -ForegroundColor Cyan
+    Write-Host "==========================================================================" -ForegroundColor Cyan
+    Write-Host @"
+TOKEN OPTIMIZATIONS & COMPANIONS:
+--------------------------------------------------------------------------
+1. 1-Hour Prompt Caching (ENABLE_PROMPT_CACHING_1H=1)
+   - What it does: Caches system prompts and repository context in server RAM
+     for 1 hour. Subsequent queries in that window cost up to 90% fewer tokens.
+   - When to disable: Only if you are actively editing system prompts in CLAUDE.md
+     and want immediate cache bust on every request.
+
+2. RTK (Rust Token Killer)
+   - What it does: Lightweight (<10ms) Rust CLI proxy that intercepts terminal
+     commands (git, cargo, pytest, npm) and strips out redundant boilerplate,
+     empty lines, and progress bars.
+   - Saves: 60% to 90% of bash output tokens from flooding context.
+
+3. Graphify AST Codebase Graph
+   - What it does: Uses Tree-sitter to parse your project into a queryable AST
+     knowledge graph so Claude navigates symbols directly instead of grepping files.
+   - Saves: Eliminates repetitive multi-file search turns on larger repos.
+
+BUNDLED SKILLS DIRECTORY:
+--------------------------------------------------------------------------
+4. antigravity: Core high-efficiency coding directives. Enforces targeted chunk
+   edits instead of monolithic file rewrites, zero fluff, and dense formatting.
+
+5. antigravity-planner: Mandates visual Mermaid architecture flowcharts, ripple
+   blast-radius analysis, and strict human approval gates before writing code.
+
+6. frontend-design: Anthropic's official design system preventing 'AI slop'
+   (generic purple gradients, boring cards). Enforces boutique studio aesthetics.
+
+7. test-driven-development: Jesse Vincent's obra/superpowers skill. Forces Claude
+   to write a failing test first, verify the failure, and write minimal code to pass.
+
+8. systematic-debugging: 4-phase root cause analysis (observe, hypothesize, isolate,
+   verify). Eliminates random guessing and symptom-treating hacks.
+
+9. verification-before-completion: Prohibits declaring work 'fixed' or 'complete'
+   without executing automated tests or build verification commands first.
+
+10. web-artifacts-builder: Complete multi-component React 18 + Tailwind CSS +
+    shadcn/ui application builder for rich interactive side-panel artifacts.
+
+11. xlsx: Official Anthropic skill to manipulate real Excel workbooks (.xlsx),
+    compute formulas, build charts, and clean tabular data without corrupting XML.
+
+12. pdf: Official Anthropic skill to extract tables, split/merge pages, rotate,
+    decrypt, and perform OCR on scanned PDF files.
+
+13. docx: Official Anthropic skill to create and edit professional Word (.docx)
+    documents with custom headings, styles, and tables of contents.
+==========================================================================
+"@ -ForegroundColor Gray
+    Write-Host "`nPress any key to return to settings..." -ForegroundColor Yellow
+    $null = [System.Console]::ReadKey($true)
+}
+
 function Run-Diagnostics {
     Clear-Host
     Write-Host "==========================================================================" -ForegroundColor Cyan
     Write-Host "                 ANTIGRAVITY SYSTEM DIAGNOSTICS                           " -ForegroundColor Cyan
     Write-Host "==========================================================================" -ForegroundColor Cyan
 
-    # Claude CLI
     $claudeCmd = Get-Command claude -ErrorAction SilentlyContinue
     if ($claudeCmd) {
         $cVer = (claude --version 2>&1) -join " "
         Write-Host "  [+] Claude Code CLI:       Found ($cVer)" -ForegroundColor Green
     } else {
-        Write-Host "  [!] Claude Code CLI:       Not found in PATH (Install via: npm i -g @anthropic-ai/claude-code)" -ForegroundColor Yellow
+        Write-Host "  [!] Claude Code CLI:       Not found in PATH" -ForegroundColor Yellow
     }
 
-    # Prompt Caching
     $cacheVar = [System.Environment]::GetEnvironmentVariable('ENABLE_PROMPT_CACHING_1H', 'User')
     if ($cacheVar -eq '1') {
         Write-Host "  [+] 1-Hour Prompt Caching: ACTIVE (ENABLE_PROMPT_CACHING_1H=1)" -ForegroundColor Green
@@ -184,7 +256,6 @@ function Run-Diagnostics {
         Write-Host "  [!] 1-Hour Prompt Caching: INACTIVE" -ForegroundColor DarkGray
     }
 
-    # RTK
     $rtkCmd = Get-Command rtk -ErrorAction SilentlyContinue
     $rtkLocal = Join-Path $binDir "rtk.exe"
     if ($rtkCmd -or (Test-Path $rtkLocal)) {
@@ -194,7 +265,6 @@ function Run-Diagnostics {
         Write-Host "  [!] RTK Binary:            Not installed" -ForegroundColor Yellow
     }
 
-    # Hook in settings.json
     $settingsJson = Join-Path $claudeDir "settings.json"
     if (Test-Path $settingsJson) {
         $sContent = Get-Content $settingsJson -Raw
@@ -207,7 +277,6 @@ function Run-Diagnostics {
         Write-Host "  [!] Claude settings.json:  Not found" -ForegroundColor DarkGray
     }
 
-    # CLAUDE.md
     $claudeMd = Join-Path $claudeDir "CLAUDE.md"
     if (Test-Path $claudeMd) {
         Write-Host "  [+] Global CLAUDE.md:      PRESENT (~/.claude/CLAUDE.md)" -ForegroundColor Green
@@ -215,7 +284,6 @@ function Run-Diagnostics {
         Write-Host "  [!] Global CLAUDE.md:      MISSING" -ForegroundColor Red
     }
 
-    # Skills count
     $activeCount = 0
     $disabledCount = 0
     foreach ($s in $allSkillNames) {
@@ -227,7 +295,6 @@ function Run-Diagnostics {
         Write-Host "  [!] Disabled Skills:       $disabledCount disabled" -ForegroundColor Yellow
     }
 
-    # Global Command Check
     $agyCmd = Get-Command agy-settings -ErrorAction SilentlyContinue
     if ($agyCmd -or (Test-Path (Join-Path $binDir "agy-settings.bat"))) {
         Write-Host "  [+] Global agy-settings:   AVAILABLE ('agy-settings' in any terminal)" -ForegroundColor Green
@@ -288,22 +355,25 @@ while ($true) {
     Write-Host "==========================================================================" -ForegroundColor Cyan
     Write-Host "                 ANTIGRAVITY CONFIGURATION & SETTINGS                     " -ForegroundColor Cyan
     Write-Host "==========================================================================" -ForegroundColor Cyan
-    Write-Host "  Customize token-saving flags, companion proxies, and active skills.      " -ForegroundColor DarkGray
-    Write-Host "  (All changes take effect immediately across Claude sessions)            `n" -ForegroundColor DarkGray
+    Write-Host "  Toggle token optimizations, CLI proxies, and active skills anytime.      " -ForegroundColor DarkGray
+    Write-Host "  (Changes take effect immediately across all Claude sessions)            `n" -ForegroundColor DarkGray
 
     Write-Host " TOKEN OPTIMIZATIONS & COMPANIONS:" -ForegroundColor Yellow
     
     $cColor = if ($cachingActive) { "Green" } else { "DarkGray" }
     $cText  = if ($cachingActive) { "[ ENABLED  ]" } else { "[ DISABLED ]" }
-    Write-Host "  [1] 1-Hour Prompt Caching           $cText  (ENABLE_PROMPT_CACHING_1H)" -ForegroundColor $cColor
+    Write-Host "  [1] 1-Hour Prompt Caching           $cText" -ForegroundColor $cColor
+    Write-Host "      └─ Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)" -ForegroundColor DarkGray
 
     $rColor = if ($rtkActive -and $rtkInstalled) { "Green" } elseif ($rtkInstalled) { "DarkGray" } else { "Yellow" }
     $rText  = if (-not $rtkInstalled) { "[ NOT INSTALLED ]" } elseif ($rtkActive) { "[ ENABLED  ]" } else { "[ DISABLED ]" }
-    Write-Host "  [2] RTK (Rust Token Killer)          $rText  (Compresses noisy CLI output)" -ForegroundColor $rColor
+    Write-Host "  [2] RTK (Rust Token Killer)          $rText" -ForegroundColor $rColor
+    Write-Host "      └─ Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)" -ForegroundColor DarkGray
 
     $gColor = if ($graphifyActive) { "Green" } else { "DarkGray" }
     $gText  = if ($graphifyActive) { "[ ENABLED  ]" } else { "[ DISABLED ]" }
-    Write-Host "  [3] Graphify AST Codebase Graph     $gText  (Knowledge graph mapper)" -ForegroundColor $gColor
+    Write-Host "  [3] Graphify AST Codebase Graph     $gText" -ForegroundColor $gColor
+    Write-Host "      └─ Pre-maps codebase symbol relationships so Claude doesn't burn tokens grepping" -ForegroundColor DarkGray
 
     Write-Host "`n ------------------------------------------------------------------------" -ForegroundColor DarkGray
     Write-Host " BUNDLED SKILLS DIRECTORY:" -ForegroundColor Yellow
@@ -318,18 +388,24 @@ while ($true) {
         $sText  = if ($skillOn) { "[ ENABLED  ]" } else { "[ DISABLED ]" }
         $idxStr = if ($i -lt 10) { " [$i] " } else { "[$i] " }
         Write-Host "  $idxStr$($s.PadRight(30)) $sText" -ForegroundColor $sColor
+        
+        $sub = $skillSubtitles[$s]
+        if ($sub) {
+            Write-Host "      └─ $sub" -ForegroundColor DarkGray
+        }
         $i++
     }
 
     Write-Host "`n ------------------------------------------------------------------------" -ForegroundColor DarkGray
     Write-Host " ACTIONS:" -ForegroundColor Yellow
+    Write-Host "  [?] View In-Depth Feature Guide" -ForegroundColor Cyan
     Write-Host "  [T] Run System Diagnostics" -ForegroundColor Green
-    Write-Host "  [C] Copy Claude Desktop Instructions to Clipboard" -ForegroundColor Cyan
+    Write-Host "  [C] Copy Claude Desktop Instructions to Clipboard" -ForegroundColor White
     Write-Host "  [U] Uninstall Antigravity Suite" -ForegroundColor Red
-    Write-Host "  [0] Exit Settings" -ForegroundColor White
+    Write-Host "  [0] Exit Settings" -ForegroundColor Gray
     Write-Host "==========================================================================" -ForegroundColor Cyan
 
-    Write-Host -NoNewline "`nSelect an option to toggle (0-13, T, C, U): "
+    Write-Host -NoNewline "`nSelect an option to toggle (0-13, ?, T, C, U): "
     $choice = Read-Host
 
     switch ($choice.ToUpper().Trim()) {
@@ -349,6 +425,7 @@ while ($true) {
         "11" { Toggle-Skill "xlsx" $cfg }
         "12" { Toggle-Skill "pdf" $cfg }
         "13" { Toggle-Skill "docx" $cfg }
+        "?"  { Show-FeatureGuide }
         "T"  { Run-Diagnostics }
         "C"  { Copy-CustomInstructions }
         "U"  {

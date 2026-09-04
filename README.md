@@ -57,25 +57,39 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
                  ANTIGRAVITY CONFIGURATION & SETTINGS                     
 ==========================================================================
  TOKEN OPTIMIZATIONS & COMPANIONS:
-  [1] 1-Hour Prompt Caching           [ ENABLED  ]  (ENABLE_PROMPT_CACHING_1H)
-  [2] RTK (Rust Token Killer)          [ ENABLED  ]  (Compresses noisy CLI output)
-  [3] Graphify AST Codebase Graph     [ DISABLED ]  (Knowledge graph mapper)
+  [1] 1-Hour Prompt Caching           [ ENABLED  ]
+      └─ Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)
+  [2] RTK (Rust Token Killer)          [ ENABLED  ]
+      └─ Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)
+  [3] Graphify AST Codebase Graph     [ DISABLED ]
+      └─ Pre-maps codebase symbol relationships so Claude doesn't burn tokens grepping
 
  ------------------------------------------------------------------------
  BUNDLED SKILLS DIRECTORY:
   [ 4] antigravity                    [ ENABLED  ]
+      └─ Core zero-fluff protocol & targeted chunk-diff rules
   [ 5] antigravity-planner            [ ENABLED  ]
+      └─ Mandatory Mermaid architecture flowcharts & approval gates
   [ 6] frontend-design                [ ENABLED  ]
+      └─ Anthropic boutique visual design standards (anti-AI slop)
   [ 7] test-driven-development        [ ENABLED  ]
+      └─ obra/superpowers: Enforces failing tests before writing code
   [ 8] systematic-debugging           [ ENABLED  ]
+      └─ obra/superpowers: 4-phase root cause analysis before fixes
   [ 9] verification-before-completion [ ENABLED  ]
+      └─ obra/superpowers: Requires automated test proof before claims
   [10] web-artifacts-builder          [ ENABLED  ]
+      └─ Anthropic: React 18 + Tailwind + shadcn/ui multi-component apps
   [11] xlsx                           [ ENABLED  ]
+      └─ Anthropic: Native Excel spreadsheet creation, formulas & data
   [12] pdf                            [ ENABLED  ]
+      └─ Anthropic: PDF text/table extraction, page merging & OCR
   [13] docx                           [ ENABLED  ]
+      └─ Anthropic: Word document formatting, styling & template generator
 
  ------------------------------------------------------------------------
  ACTIONS:
+  [?] View In-Depth Feature Guide
   [T] Run System Diagnostics
   [C] Copy Claude Desktop Instructions to Clipboard
   [U] Uninstall Antigravity Suite
@@ -85,25 +99,42 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
 
 - **Everything is ENABLED by default** for maximum power.
 - **1-Click Diagnostics `[T]`**: Instantly verifies that your Claude CLI, RTK proxy hook, prompt caching environment, and skills are active.
+- **In-Depth Guide `[?]`**: Press `?` inside the menu to read an explanation of every feature without leaving the terminal.
 - **Zero-Dependency Toggling**: Uses a self-contained `~/.claude/skills-catalog/`, so you can toggle skills anytime even if you delete the cloned repo folder.
 - State is saved persistently in `~/.claude/antigravity.json`.
 
 ---
 
-## 🛠️ Bundled Skills Directory
+## 🛠️ Complete Feature & Skill Reference
+
+Here is the complete breakdown of every optimization and skill in the suite, what it does, and when to toggle it:
+
+### ⚡ Token Optimizations & Companion Tools
+
+| Feature | Default | Purpose & Token Impact | When to Keep ON / When to Disable |
+| :--- | :---: | :--- | :--- |
+| **1-Hour Prompt Caching** | **ON** | Caches system prompt & repository context in server RAM for 1 hour. **Saves up to 90% on input tokens** for multi-turn sessions. | Keep **ON** permanently. Disable only if you are actively modifying system prompts and need cache busting on every turn. |
+| **RTK (Rust Token Killer)** | **ON** | High-speed proxy that intercepts terminal command outputs (`git status`, `cargo test`, `pytest`, `npm`) and strips boilerplate, noise, and progress bars. **Cuts bash output tokens by 60–90%**. | Keep **ON** for all CLI workflows. Disable only if you need raw, uncompressed CLI logs for debugging obscure terminal errors. |
+| **Graphify AST Graph** | **OPTIONAL** | Uses Tree-sitter to parse your codebase into an AST knowledge graph so Claude navigates symbols directly instead of grepping files. | Enable on large codebases (>50+ files) to avoid repetitive file searches. |
+
+---
+
+### 🧩 Bundled Skills Reference
 
 All skills are installed directly into your `~/.claude/skills/` folder:
 
-| Skill | Source | Purpose |
+| Skill | Source | Purpose & Behavioral Impact |
 | :--- | :--- | :--- |
-| **`antigravity`** | Antigravity Core | High-efficiency coding protocol, chunked editing, and token minimization. |
-| **`antigravity-planner`** | Custom Suite | Mandates visual Mermaid architecture flowcharts, GFM alerts, and structured planning. |
-| **`frontend-design`** | Official Anthropic | Eradicates "AI slop" (generic purple gradients, boring cards). Enforces boutique studio design. |
-| **`test-driven-development`** | `obra/superpowers` | Enforces true red/green TDD (writes failing tests *before* writing code). |
-| **`systematic-debugging`** | `obra/superpowers` | 4-phase root cause analysis before making code tweaks. |
-| **`verification-before-completion`** | `obra/superpowers` | Enforces automated verification and tests before claiming task completion. |
-| **`web-artifacts-builder`** | Official Anthropic | Bundles complex multi-component apps using **React 18 + Tailwind + shadcn/ui**. |
-| **`xlsx`, `pdf`, `docx`** | Official Anthropic | Native manipulation of real Excel sheets, PDFs, and Word documents without corrupting formatting. |
+| **`antigravity`** | Antigravity Core | Enforces zero conversational pleasantries, high-density formatting, and **targeted chunk-based edits** (never rewrites 300+ line files for a 3-line tweak). |
+| **`antigravity-planner`** | Custom Suite | Mandates **interactive Mermaid architecture flowcharts**, ripple impact analysis, and hard approval gates before editing code. |
+| **`frontend-design`** | Official Anthropic | Eradicates "AI slop" (cliché purple gradients, generic bootstrap cards). Enforces distinctive palettes, intentional typography, and boutique studio aesthetics. |
+| **`test-driven-development`** | `obra/superpowers` | Enforces true red/green TDD: Claude must write an automated test that reproduces the bug or tests the requirement, verify it fails, and only then write minimal passing code. |
+| **`systematic-debugging`** | `obra/superpowers` | 4-phase root cause analysis (observe, hypothesize, isolate, verify). Stops random guessing and symptom-treating hacks. |
+| **`verification-before-completion`** | `obra/superpowers` | Prohibits Claude from declaring work "complete" or claiming fixes work without executing concrete test/build verification commands first. |
+| **`web-artifacts-builder`** | Official Anthropic | Complete development blueprint for multi-component **React 18 + Tailwind CSS + shadcn/ui** interactive applications. |
+| **`xlsx`** | Official Anthropic | Real Excel workbook creation, formula computation, chart insertion, and tabular data cleansing without corrupting XML structures. |
+| **`pdf`** | Official Anthropic | PDF text/table extraction, splitting/combining pages, rotating, decrypting, and OCR processing. |
+| **`docx`** | Official Anthropic | Professional Microsoft Word document generation with custom typography, headings, tables of contents, and callout boxes. |
 
 ---
 
