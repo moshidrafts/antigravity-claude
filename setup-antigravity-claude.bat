@@ -2,7 +2,8 @@
 @echo off
 title Antigravity Protocol Suite for Claude (Setup)
 cls
-powershell -NoProfile -ExecutionPolicy Bypass -Command "Invoke-Expression (Get-Content -Raw '%~f0')"
+set "ANTIGRAVITY_DIR=%~dp0"
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$scriptDir = $env:ANTIGRAVITY_DIR.TrimEnd('\'); Invoke-Expression (Get-Content -Raw '%~f0')"
 if %ERRORLEVEL% NEQ 0 (
     echo.
     echo Setup encountered an unexpected error.
@@ -23,7 +24,16 @@ $claudeDir = Join-Path $userProfile ".claude"
 $skillsDir = Join-Path $claudeDir "skills"
 $catalogDir = Join-Path $claudeDir "skills-catalog"
 $binDir = Join-Path $claudeDir "bin"
-$scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Definition
+
+if (-not $scriptDir) {
+    if ($env:ANTIGRAVITY_DIR) {
+        $scriptDir = $env:ANTIGRAVITY_DIR.TrimEnd('\')
+    } elseif ($PSScriptRoot) {
+        $scriptDir = $PSScriptRoot
+    } else {
+        $scriptDir = (Get-Location).Path
+    }
+}
 $localSkills = Join-Path $scriptDir "skills"
 
 # 1. Directories
