@@ -160,7 +160,7 @@ run_diagnostics() {
         mCount=$(claude plugin marketplace list 2>&1 | grep -c "^  >" || true)
         echo -e "  \033[32m[+]\033[0m Claude Marketplaces:   $mCount configured"
         pCount=$(claude plugin list 2>&1 | grep -c "^  >" || true)
-        echo -e "  \033[32m[+]\033[0m Claude Code Plugins:   $pCount installed (clean compiler LSPs: pyright, typescript)"
+        echo -e "  \033[32m[+]\033[0m Claude Code Plugins:   $pCount installed (clean developer suite & compiler LSPs)"
     fi
 
     if command -v agy-settings >/dev/null 2>&1 || [ -f "$BIN_DIR/agy-settings" ]; then

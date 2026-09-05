@@ -82,13 +82,13 @@ if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
 fi
 echo "[DONE]"
 
-# 5. Register Compiler Language Server Plugins if claude is present
+# 5. Register Vetted Developer Plugins & Compiler LSPs if claude is present
 if command -v claude >/dev/null 2>&1; then
-    echo "[5/6] Registering Compiler Language Servers (LSPs)..."
-    for p in pyright-lsp@claude-plugins-official typescript-lsp@claude-plugins-official; do
+    echo "[5/6] Registering Vetted Developer Plugins & Compiler LSPs..."
+    for p in pyright-lsp@claude-plugins-official typescript-lsp@claude-plugins-official code-review@claude-plugins-official code-simplifier@claude-plugins-official commit-commands@claude-plugins-official skill-creator@claude-plugins-official claude-security@claude-plugins-official mcp-server-dev@claude-plugins-official mcp-tunnels@claude-plugins-official agent-sdk-dev@claude-plugins-official; do
         claude plugin install "$p" >/dev/null 2>&1 || true
     done
-    echo "  -> Compiler LSPs installed (pyright, typescript - 0 token overhead, zero slash spam)."
+    echo "  -> Vetted developer plugins & compiler LSPs configured (clean, zero colon spam)."
 fi
 
 echo -n "[6/6] Copying Custom Instructions to Clipboard... "

@@ -382,7 +382,7 @@ function Run-Diagnostics {
         try {
             $pObj = Get-Content $pluginsJson -Raw | ConvertFrom-Json
             $pCount = ($pObj.plugins.PSObject.Properties | Measure-Object).Count
-            Write-Host "  [+] Claude Code Plugins:   $pCount installed (clean compiler LSPs: pyright, typescript)" -ForegroundColor Green
+            Write-Host "  [+] Claude Code Plugins:   $pCount installed (clean developer suite & compiler LSPs)" -ForegroundColor Green
         } catch {
             Write-Host "  [+] Claude Code Plugins:   Configured" -ForegroundColor Green
         }

@@ -153,21 +153,29 @@ if (-not (Test-Path $configFile)) {
     $cfg | ConvertTo-Json -Depth 5 | Set-Content $configFile -Encoding UTF8
 }
 
-# 7. Configure Compiler Language Servers (LSPs) (if Claude CLI is present)
+# 7. Configure Vetted Developer Plugins & Compiler LSPs (if Claude CLI is present)
 $claudeCmd = Get-Command claude -ErrorAction SilentlyContinue
 if ($claudeCmd) {
-    Write-Host "[5/6] Registering Compiler Language Servers (LSPs)..." -ForegroundColor Yellow
+    Write-Host "[5/6] Registering Vetted Developer Plugins & Compiler LSPs..." -ForegroundColor Yellow
     try {
         $recommendedPlugins = @(
             "pyright-lsp@claude-plugins-official",
-            "typescript-lsp@claude-plugins-official"
+            "typescript-lsp@claude-plugins-official",
+            "code-review@claude-plugins-official",
+            "code-simplifier@claude-plugins-official",
+            "commit-commands@claude-plugins-official",
+            "skill-creator@claude-plugins-official",
+            "claude-security@claude-plugins-official",
+            "mcp-server-dev@claude-plugins-official",
+            "mcp-tunnels@claude-plugins-official",
+            "agent-sdk-dev@claude-plugins-official"
         )
         foreach ($p in $recommendedPlugins) {
             & claude plugin install $p 2>&1 | Out-Null
         }
-        Write-Host "  -> Compiler LSPs installed (pyright, typescript - 0 token overhead, zero slash spam)." -ForegroundColor Green
+        Write-Host "  -> Vetted developer plugins & compiler LSPs configured (clean, zero colon spam)." -ForegroundColor Green
     } catch {
-        Write-Host "  -> LSP installation skipped." -ForegroundColor DarkGray
+        Write-Host "  -> Plugin configuration skipped." -ForegroundColor DarkGray
     }
 }
 
