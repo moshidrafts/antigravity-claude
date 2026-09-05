@@ -34,6 +34,7 @@ $skillsToRemove = @(
     "antigravity",
     "antigravity-planner",
     "caveman",
+    "graphify",
     "frontend-design",
     "test-driven-development",
     "systematic-debugging",

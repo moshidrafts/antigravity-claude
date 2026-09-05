@@ -73,7 +73,7 @@ function Load-Config {
     $cfg = [ordered]@{
         prompt_caching_1h = $true
         rtk_proxy = $true
-        graphify = $false
+        graphify = $true
         skills = [ordered]@{}
     }
     foreach ($s in $allSkillNames) {
@@ -114,6 +114,51 @@ function Sync-SkillsToConfig($cfg) {
             }
         }
     }
+}
+
+function Toggle-Graphify($cfg) {
+    $graphifyCmd = Get-Command graphify -ErrorAction SilentlyContinue
+    $localExe = Join-Path $binDir "graphify.exe"
+    if ((-not $graphifyCmd) -and (-not (Test-Path $localExe))) {
+        Write-Host "`nGraphify CLI is not detected. Would you like to install it via pip? (y/N): " -ForegroundColor Yellow -NoNewline
+        $raw = Read-Host
+        if ($raw -and ($raw.Trim().ToUpper() -eq 'Y')) {
+            try {
+                Write-Host "Installing graphifyy via pip..." -ForegroundColor Cyan
+                & python -m pip install graphifyy --quiet
+                $pyScriptPath = & python -c "import sysconfig; print(sysconfig.get_path('scripts'))" 2>$null
+                if ($pyScriptPath -and (Test-Path (Join-Path $pyScriptPath "graphify.exe"))) {
+                    Copy-Item (Join-Path $pyScriptPath "graphify*.exe") $binDir -Force -ErrorAction SilentlyContinue
+                }
+                Write-Host "Graphify CLI installed successfully!" -ForegroundColor Green
+            } catch {
+                Write-Host "Failed to install graphifyy automatically. Run: pip install graphifyy" -ForegroundColor Red
+            }
+        }
+    }
+
+    $newState = (-not [bool]$cfg.graphify)
+    $cfg.graphify = $newState
+    Save-Config $cfg
+
+    $gSkillSource = Join-Path $catalogDir "graphify"
+    $gSkillTarget = Join-Path $skillsDir "graphify"
+    $gSkillDisabled = Join-Path $disabledDir "graphify"
+
+    if ($newState) {
+        if (Test-Path $gSkillDisabled) {
+            Move-Item $gSkillDisabled $gSkillTarget -Force
+        } elseif (Test-Path $gSkillSource) {
+            Copy-Item $gSkillSource $gSkillTarget -Recurse -Force
+        }
+        Write-Host "`n[+] Graphify AST Knowledge Graph ENABLED." -ForegroundColor Green
+    } else {
+        if (Test-Path $gSkillTarget) {
+            Move-Item $gSkillTarget $gSkillDisabled -Force
+        }
+        Write-Host "`n[-] Graphify AST Knowledge Graph DISABLED." -ForegroundColor DarkGray
+    }
+    Start-Sleep -Seconds 1
 }
 
 function Toggle-Skill($name, $cfg) {
@@ -468,8 +513,7 @@ while ($true) {
         "1" { Toggle-Caching $cfg }
         "2" { Toggle-RTK $cfg }
         "3" { 
-            $cfg.graphify = (-not $cfg.graphify)
-            Save-Config $cfg 
+            Toggle-Graphify $cfg
         }
         "4"  { Toggle-Skill "antigravity" $cfg }
         "5"  { Toggle-Skill "antigravity-planner" $cfg }

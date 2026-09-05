@@ -15,7 +15,7 @@ LOCAL_SKILLS="$SCRIPT_DIR/skills"
 
 mkdir -p "$CLAUDE_DIR" "$SKILLS_DIR" "$CATALOG_DIR" "$BIN_DIR"
 
-echo -n "[1/6] Deploying 11 skills to $SKILLS_DIR and catalog... "
+echo -n "[1/6] Deploying 12 skills to $SKILLS_DIR and catalog... "
 if [ -d "$LOCAL_SKILLS" ]; then
     cp -r "$LOCAL_SKILLS"/* "$SKILLS_DIR/"
     cp -r "$LOCAL_SKILLS"/* "$CATALOG_DIR/"
@@ -134,7 +134,7 @@ echo ""
 echo "=========================================================================="
 echo "                    3. SETTINGS & GLOBAL COMMAND                          "
 echo "=========================================================================="
-echo "  * All 11 skills and prompt caching are ENABLED by default."
+echo "  * All 12 skills and prompt caching are ENABLED by default."
 echo "  * You can now run 'agy-settings' from ANY terminal!"
 echo "  * Or run './settings.sh' anytime from this folder."
 echo "=========================================================================="

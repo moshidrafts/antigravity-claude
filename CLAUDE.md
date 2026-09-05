@@ -204,3 +204,6 @@ Once execution is complete, verify the work (run tests/builds) and output `walkt
 - **Zero Manual Invocation:** Never require the user to type `/antigravity-protocol` or ask for permission to activate the protocol. It is permanently active by default across all sessions.
 
 @RTK.md
+# graphify
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.

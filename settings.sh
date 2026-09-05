@@ -138,6 +138,12 @@ run_diagnostics() {
         echo -e "  \033[33m[!]\033[0m RTK Binary:            Not installed"
     fi
 
+    if command -v graphify >/dev/null 2>&1; then
+        echo -e "  \033[32m[+]\033[0m Graphify AST CLI:      Installed ($(graphify --version 2>&1 || echo 'present'))"
+    else
+        echo -e "  \033[90m[!]\033[0m Graphify AST CLI:      Not installed (pip install graphifyy)"
+    fi
+
     if [ -f "$CLAUDE_DIR/CLAUDE.md" ]; then
         echo -e "  \033[32m[+]\033[0m Global CLAUDE.md:      PRESENT (~/.claude/CLAUDE.md)"
     else
@@ -222,7 +228,17 @@ while true; do
     case "$opt" in
         1) toggle_caching ;;
         2) bash "$SCRIPT_DIR/scripts/install-rtk.sh" 2>/dev/null || true ;;
-        3) echo "Graphify is optional. Use npm install -g @graphify/cli to generate AST graphs." ; sleep 2 ;;
+        3)
+            if command -v graphify >/dev/null 2>&1; then
+                toggle_skill "graphify"
+            else
+                echo "Graphify CLI not detected. To install: pip install graphifyy"
+                read -p "Install graphifyy now via pip? (y/N): " gAns
+                if [[ "$gAns" =~ ^[Yy]$ ]]; then
+                    pip install graphifyy && toggle_skill "graphify"
+                fi
+            fi
+            ;;
         4) toggle_skill "antigravity" ;;
         5) toggle_skill "antigravity-planner" ;;
         6) toggle_skill "caveman" ;;

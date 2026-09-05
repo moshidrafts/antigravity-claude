@@ -1,6 +1,6 @@
-# 🚀 Antigravity Protocol for Claude (1-Click Suite)
+# 🚀 Antigravity Protocol for Claude Code (1-Click Suite)
 
-> **Supercharge Claude Code and Claude Desktop with Google Antigravity discipline.** Save 70%+ tokens, eliminate conversational fluff, force visual Mermaid architecture diagrams, and mandate approval gates before editing code.
+> **Supercharge Claude Code and Claude Desktop with Google Antigravity discipline.** Save 70%+ tokens, eliminate conversational fluff, force visual Mermaid architecture diagrams, auto-map codebases with Graphify AST graphs, and mandate approval gates before editing code.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform: Windows | macOS | Linux](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey.svg)](#-1-click-installation)
@@ -18,8 +18,7 @@
 | **Silent Breakages:** Modifies connected functions without warning or explanation. | **Ripple Impact Disclosure:** Explains what is there, what changes, and why before touching code. |
 | **Monolithic Dumps:** Rewrites entire files for a 3-line change, exhausting tokens. | **Targeted Chunk Diffs:** Edits only the exact line ranges. |
 | **Raw Code Blocks:** Outputs Mermaid syntax as unrendered text. | **Interactive Diagrams:** Mandates visual architecture diagrams with Mermaid and SVG. |
-
----
+| **Blind Grepping:** Burns tokens reading files line-by-line across large repositories. | **AST Knowledge Graphs:** Pre-maps code symbols and relationships via Tree-sitter (`graphify`). |
 
 ---
 
@@ -28,20 +27,22 @@
 ### Windows (1-Click Setup)
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/moshidrafts/antigravity-claude.git
+   git clone https://github.com/moshidrafts/antigravity-claude-code.git
    ```
+   *(Note: `antigravity-claude` automatically redirects here)*
 2. Double-click **`setup-antigravity-claude.bat`**.
 3. **What happens automatically:**
-   - Deploys all 11 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
+   - Deploys all 12 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
    - Injects the global `CLAUDE.md` operating directive. *(If you already have an existing `CLAUDE.md`, the installer will ask whether to **[O]verwrite** with a `.bak` backup, **[A]ppend**, or **[C]ancel**!)*
    - Registers the global **`agy-settings`** CLI command in your PATH.
    - Automatically activates **1-Hour Prompt Caching** (`ENABLE_PROMPT_CACHING_1H=1`).
+   - Automatically links **Graphify AST Graph** (`graphify.exe`) into your PATH if Python is present.
    - Copies Custom Instructions to your clipboard and prints next steps clearly in your terminal!
 4. Open **Claude Desktop** $\rightarrow$ **Settings** $\rightarrow$ **Custom Instructions** and press <kbd>Ctrl</kbd> + <kbd>V</kbd>.
 
 ### macOS & Linux (1-Line Command)
 ```bash
-git clone https://github.com/moshidrafts/antigravity-claude.git && cd antigravity-claude && chmod +x install.sh && ./install.sh
+git clone https://github.com/moshidrafts/antigravity-claude-code.git && cd antigravity-claude-code && chmod +x install.sh && ./install.sh
 ```
 
 ---
@@ -58,36 +59,36 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
 ==========================================================================
  TOKEN OPTIMIZATIONS & COMPANIONS:
   [1] 1-Hour Prompt Caching           [ ENABLED  ]
-      └─ Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)
+      |-- Caches prompts & workspace in RAM for 1h (cuts 90% prompt cost)
   [2] RTK (Rust Token Killer)          [ ENABLED  ]
-      └─ Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)
-  [3] Graphify AST Codebase Graph     [ DISABLED ]
-      └─ Pre-maps codebase symbol relationships so Claude doesn't burn tokens grepping
+      |-- Strips CLI boilerplate/progress bars from git/npm/tests (60-90% savings)
+  [3] Graphify AST Codebase Graph     [ ENABLED  ]
+      |-- Pre-maps codebase symbol relationships so Claude doesn't burn tokens grepping
 
  ------------------------------------------------------------------------
  BUNDLED SKILLS DIRECTORY:
   [ 4] antigravity                    [ ENABLED  ]
-      └─ Core zero-fluff protocol & targeted chunk-diff rules
+      |-- Core zero-fluff protocol & targeted chunk-diff rules
   [ 5] antigravity-planner            [ ENABLED  ]
-      └─ Mandatory Mermaid architecture flowcharts & approval gates
+      |-- Mandatory Mermaid architecture flowcharts & approval gates
   [ 6] caveman                        [ ENABLED  ]
-      └─ JuliusBrussee: Ultra-compressed token communication (cuts 60-75% output tokens)
+      |-- JuliusBrussee: Ultra-compressed token communication (cuts 60-75% output tokens)
   [ 7] frontend-design                [ ENABLED  ]
-      └─ Anthropic boutique visual design standards (anti-AI slop)
+      |-- Anthropic boutique visual design standards (anti-AI slop)
   [ 8] test-driven-development        [ ENABLED  ]
-      └─ obra/superpowers: Enforces failing tests before writing code
+      |-- obra/superpowers: Enforces failing tests before writing code
   [ 9] systematic-debugging           [ ENABLED  ]
-      └─ obra/superpowers: 4-phase root cause analysis before fixes
+      |-- obra/superpowers: 4-phase root cause analysis before fixes
   [10] verification-before-completion [ ENABLED  ]
-      └─ obra/superpowers: Requires automated test proof before claims
+      |-- obra/superpowers: Requires automated test proof before claims
   [11] web-artifacts-builder          [ ENABLED  ]
-      └─ Anthropic: React 18 + Tailwind + shadcn/ui multi-component apps
+      |-- Anthropic: React 18 + Tailwind + shadcn/ui multi-component apps
   [12] xlsx                           [ ENABLED  ]
-      └─ Anthropic: Native Excel spreadsheet creation, formulas & data
+      |-- Anthropic: Native Excel spreadsheet creation, formulas & data
   [13] pdf                            [ ENABLED  ]
-      └─ Anthropic: PDF text/table extraction, page merging & OCR
+      |-- Anthropic: PDF text/table extraction, page merging & OCR
   [14] docx                           [ ENABLED  ]
-      └─ Anthropic: Word document formatting, styling & template generator
+      |-- Anthropic: Word document formatting, styling & template generator
 
  ------------------------------------------------------------------------
  ACTIONS:
@@ -100,7 +101,7 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
 ```
 
 - **Everything is ENABLED by default** for maximum power.
-- **1-Click Diagnostics `[T]`**: Instantly verifies that your Claude CLI, RTK proxy hook, prompt caching environment, and skills are active.
+- **1-Click Diagnostics `[T]`**: Instantly verifies that your Claude CLI, RTK proxy hook, prompt caching environment, Graphify binary, and skills are active.
 - **In-Depth Guide `[?]`**: Press `?` inside the menu to read an explanation of every feature without leaving the terminal.
 - **Zero-Dependency Toggling**: Uses a self-contained `~/.claude/skills-catalog/`, so you can toggle skills anytime even if you delete the cloned repo folder.
 - State is saved persistently in `~/.claude/antigravity.json`.
@@ -117,11 +118,11 @@ Here is the complete breakdown of every optimization and skill in the suite, wha
 | :--- | :---: | :--- | :--- |
 | **1-Hour Prompt Caching** | **ON** | Caches system prompt & repository context in server RAM for 1 hour. **Saves up to 90% on input tokens** for multi-turn sessions. | Keep **ON** permanently. Disable only if you are actively modifying system prompts and need cache busting on every turn. |
 | **RTK (Rust Token Killer)** | **ON** | High-speed proxy that intercepts terminal command outputs (`git status`, `cargo test`, `pytest`, `npm`) and strips boilerplate, noise, and progress bars. **Cuts bash output tokens by 60–90%**. | Keep **ON** for all CLI workflows. Disable only if you need raw, uncompressed CLI logs for debugging obscure terminal errors. |
-| **Graphify AST Graph** | **OPTIONAL** | Uses Tree-sitter to parse your codebase into an AST knowledge graph so Claude navigates symbols directly instead of grepping files. | Enable on large codebases (>50+ files) to avoid repetitive file searches. |
+| **Graphify AST Graph** | **ON** | Uses Tree-sitter to parse your codebase into an AST knowledge graph so Claude navigates symbols directly instead of grepping files. **Cuts exploration tokens up to 70x**. | Keep **ON** across all projects. Use `/graphify` in Claude Code to build or query your graph. |
 
 ---
 
-### 🧩 Bundled Skills Reference
+### 🧩 Bundled Skills Reference (12 Skills)
 
 All skills are installed directly into your `~/.claude/skills/` folder:
 
@@ -131,6 +132,7 @@ All skills are installed directly into your `~/.claude/skills/` folder:
 | **`antigravity-planner`** | Custom Suite | Mandates **interactive Mermaid architecture flowcharts**, ripple impact analysis, and hard approval gates before editing code. |
 | **`caveman`** | `JuliusBrussee/caveman` | Ultra-compressed communication mode. Strips filler, hedging, and pleasantries while keeping exact technical terms and code. **Cuts output tokens by 60–75%**. |
 | **`frontend-design`** | Official Anthropic | Eradicates "AI slop" (cliché purple gradients, generic bootstrap cards). Enforces distinctive palettes, intentional typography, and boutique studio aesthetics. |
+| **`graphify`** | `Graphify-Labs/graphify` | Turns codebase files, schemas, and docs into an AST knowledge graph. Enables `/graphify` for instant structural code navigation. |
 | **`test-driven-development`** | `obra/superpowers` | Enforces true red/green TDD: Claude must write an automated test that reproduces the bug or tests the requirement, verify it fails, and only then write minimal passing code. |
 | **`systematic-debugging`** | `obra/superpowers` | 4-phase root cause analysis (observe, hypothesize, isolate, verify). Stops random guessing and symptom-treating hacks. |
 | **`verification-before-completion`** | `obra/superpowers` | Prohibits Claude from declaring work "complete" or claiming fixes work without executing concrete test/build verification commands first. |
@@ -151,22 +153,29 @@ Both `setup-antigravity-claude.bat` and `install.sh` automatically set `ENABLE_P
 - **1-Click Install:** Run `scripts/install-rtk.ps1` (or `./scripts/install-rtk.sh` on Unix), or select option `[2]` inside `settings.bat`.
 - Automatically configures Claude Code hooks in `~/.claude/settings.json`.
 
-### 3. Complete Observability & Spend Intelligence Stack
+### 3. Graphify AST Codebase Knowledge Graph
+[Graphify](https://github.com/Graphify-Labs/graphify) parses codebases into Tree-sitter AST relationships (call graphs, imports, class hierarchies) so Claude queries symbols directly:
+- **CLI Commands**:
+  - `/graphify .` : Extracts AST graph and generates interactive HTML architecture visualizer.
+  - `/graphify query "How does auth flow?"` : Traverses the graph to answer questions without burning tokens grepping.
+- Automatically managed and toggled via `agy-settings`.
+
+### 4. Complete Observability & Spend Intelligence Stack
 Gain 100% visibility into token spend, cache efficiency, and waste across your sessions:
 - **`session-metrics` (`@centminmod`)**: Real-time in-session cost and 9-category waste breakdown (*"how much has this session cost?"* or `/session-metrics`).
 - **`session-report` (`@claude-plugins-official`)**: Self-contained interactive HTML analytics dashboard with cache-break heatmaps and subagent costs (`/session-report`).
 - **`receipts` (`@claude-plugins-official`)**: Proof-of-work receipts correlating Claude Code sessions with git commits, projects, and CSV exports (`/receipts`).
 
-### 4. Compiler-Grade Language Server Protocols (LSPs)
+### 5. Compiler-Grade Language Server Protocols (LSPs)
 Eliminate brute-force file grepping and hallucinated imports:
 - **`pyright-lsp`**: Instant Python type definitions, signatures, and compiler diagnostics.
 - **`typescript-lsp`**: Direct TypeScript/JavaScript symbol navigation and compiler error detection.
 
-### 5. Git & Review Workflow Automation
+### 6. Git & Review Workflow Automation
 - **`commit-commands`**: Clean conventional git commits and branch cleanup (`/commit`, `/commit-push-pr`, `/clean_gone`).
 - **`pr-review-toolkit`**: Multi-agent automated pull request review suite (`code-reviewer`, `silent-failure-hunter`, `type-design-analyzer`).
 
-### 6. Safe Uninstaller (`uninstall.bat` / `uninstall.sh`)
+### 7. Safe Uninstaller (`uninstall.bat` / `uninstall.sh`)
 Need to revert? Double-click `uninstall.bat` or run `./uninstall.sh`. It safely cleans up all Antigravity skills, resets environment variables, and preserves any personal custom skills outside this suite.
 
 ---
@@ -186,6 +195,7 @@ graph TD
 ## 🙏 Acknowledgements & Credits
 - Inspired by the foundational token optimization work in [claude-token-optimizer](https://github.com/KINGSTAR-OMEGA/claude-token-optimizer) by [@KINGSTAR-OMEGA](https://github.com/KINGSTAR-OMEGA).
 - Ultra-compressed communication skill derived from [caveman](https://github.com/JuliusBrussee/caveman) by [@JuliusBrussee](https://github.com/JuliusBrussee).
+- AST Knowledge Graph engine derived from [graphify](https://github.com/Graphify-Labs/graphify) by [@Graphify-Labs](https://github.com/Graphify-Labs).
 - Token usage analyzer and marketplace infrastructure from [centminmod/claude-plugins](https://github.com/centminmod/claude-plugins) by [@centminmod](https://github.com/centminmod).
 - Core software engineering skills derived from [superpowers](https://github.com/obra/superpowers) by [@obra](https://github.com/obra).
 - Official design and document skills by [Anthropic](https://github.com/anthropics/skills).
