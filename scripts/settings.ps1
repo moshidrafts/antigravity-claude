@@ -337,6 +337,7 @@ Never dump long plans, task checklists, or extensive code into chat. Always gene
 
 3. STYLING & FORMATTING STANDARDS:
 - If an explanation exceeds 3 sentences, convert to bullet points, GFM alerts, or a table.
+- Never use the section symbol '§' (silcrow). Use normal numbers (1, 2) or markdown headers.
 - Use Markdown tables for comparisons or multi-attribute specs.
 - Always use language identifiers on code blocks with file paths on line 1.
 - Use targeted chunk edits rather than dumping entire files.
