@@ -1,4 +1,4 @@
-﻿# scripts/settings.ps1
+# scripts/settings.ps1
 # Interactive Settings Manager for Antigravity-Claude Suite
 
 $ErrorActionPreference = "Continue"
@@ -373,7 +373,7 @@ function Run-Diagnostics {
         try {
             $mObj = Get-Content $marketplacesJson -Raw | ConvertFrom-Json
             $mCount = ($mObj.PSObject.Properties | Measure-Object).Count
-            Write-Host "  [+] Marketplaces:          $mCount registered (official, centminmod, community)" -ForegroundColor Green
+            Write-Host "  [+] Marketplaces:          $mCount registered" -ForegroundColor Green
         } catch {}
     }
 
@@ -382,7 +382,7 @@ function Run-Diagnostics {
         try {
             $pObj = Get-Content $pluginsJson -Raw | ConvertFrom-Json
             $pCount = ($pObj.plugins.PSObject.Properties | Measure-Object).Count
-            Write-Host "  [+] Claude Code Plugins:   $pCount installed (session-metrics, LSPs, dev-suite)" -ForegroundColor Green
+            Write-Host "  [+] Claude Code Plugins:   $pCount installed (clean compiler LSPs: pyright, typescript)" -ForegroundColor Green
         } catch {
             Write-Host "  [+] Claude Code Plugins:   Configured" -ForegroundColor Green
         }

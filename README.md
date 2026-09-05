@@ -159,22 +159,12 @@ Both `setup-antigravity-claude.bat` and `install.sh` automatically set `ENABLE_P
   - `/graphify query "How does auth flow?"` : Traverses the graph to answer questions without burning tokens grepping.
 - Automatically managed and toggled via `agy-settings`.
 
-### 4. Complete Observability & Spend Intelligence Stack
-Gain 100% visibility into token spend, cache efficiency, and waste across your sessions:
-- **`session-metrics` (`@centminmod`)**: Real-time in-session cost and 9-category waste breakdown (*"how much has this session cost?"* or `/session-metrics`).
-- **`session-report` (`@claude-plugins-official`)**: Self-contained interactive HTML analytics dashboard with cache-break heatmaps and subagent costs (`/session-report`).
-- **`receipts` (`@claude-plugins-official`)**: Proof-of-work receipts correlating Claude Code sessions with git commits, projects, and CSV exports (`/receipts`).
+### 4. Zero-Bloat Architecture & Compiler LSPs
+Unlike third-party plugin packs that inject thousands of always-on tokens into every prompt and spam your slash (`/`) autocomplete menu with dozens of noisy colon-prefixed commands:
+- **Clean `/` Command Palette**: Only the pristine 12 native Antigravity skills exist in your menu.
+- **Silent Compiler LSPs**: Automatically provisions `pyright-lsp` and `typescript-lsp`. These run out-of-process to give Claude instant compiler diagnostics, type definitions, and symbol navigation with **0 always-on prompt tokens** and **zero slash command clutter**.
 
-### 5. Compiler-Grade Language Server Protocols (LSPs)
-Eliminate brute-force file grepping and hallucinated imports:
-- **`pyright-lsp`**: Instant Python type definitions, signatures, and compiler diagnostics.
-- **`typescript-lsp`**: Direct TypeScript/JavaScript symbol navigation and compiler error detection.
-
-### 6. Git & Review Workflow Automation
-- **`commit-commands`**: Clean conventional git commits and branch cleanup (`/commit`, `/commit-push-pr`, `/clean_gone`).
-- **`pr-review-toolkit`**: Multi-agent automated pull request review suite (`code-reviewer`, `silent-failure-hunter`, `type-design-analyzer`).
-
-### 7. Safe Uninstaller (`uninstall.bat` / `uninstall.sh`)
+### 5. Safe Uninstaller (`uninstall.bat` / `uninstall.sh`)
 Need to revert? Double-click `uninstall.bat` or run `./uninstall.sh`. It safely cleans up all Antigravity skills, resets environment variables, and preserves any personal custom skills outside this suite.
 
 ---

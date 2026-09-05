@@ -82,15 +82,13 @@ if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
 fi
 echo "[DONE]"
 
-# 5. Register Marketplaces and Plugins if claude is present
+# 5. Register Compiler Language Server Plugins if claude is present
 if command -v claude >/dev/null 2>&1; then
-    echo "[5/6] Registering Claude Marketplaces & Recommended Plugins..."
-    claude plugin marketplace add centminmod/claude-plugins >/dev/null 2>&1 || true
-    claude plugin marketplace add anthropics/claude-plugins-community >/dev/null 2>&1 || true
-    for p in session-metrics@centminmod session-report@claude-plugins-official receipts@claude-plugins-official commit-commands@claude-plugins-official pr-review-toolkit@claude-plugins-official pyright-lsp@claude-plugins-official typescript-lsp@claude-plugins-official; do
+    echo "[5/6] Registering Compiler Language Servers (LSPs)..."
+    for p in pyright-lsp@claude-plugins-official typescript-lsp@claude-plugins-official; do
         claude plugin install "$p" >/dev/null 2>&1 || true
     done
-    echo "  -> Marketplaces and recommended plugins configured."
+    echo "  -> Compiler LSPs installed (pyright, typescript - 0 token overhead, zero slash spam)."
 fi
 
 echo -n "[6/6] Copying Custom Instructions to Clipboard... "
