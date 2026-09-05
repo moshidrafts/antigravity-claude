@@ -48,9 +48,19 @@ $skillSubtitles = @{
 
 function Wait-KeyPress {
     try {
-        $null = [System.Console]::ReadKey($true)
+        if ([System.Console]::IsInputRedirected) {
+            $line = Read-Host
+            if ($line -eq $null) { return }
+        } else {
+            $null = [System.Console]::ReadKey($true)
+        }
     } catch {
-        $null = Read-Host
+        try {
+            $line = Read-Host
+            if ($line -eq $null) { return }
+        } catch {
+            Start-Sleep -Milliseconds 300
+        }
     }
 }
 
@@ -248,7 +258,7 @@ BUNDLED SKILLS DIRECTORY:
 ==========================================================================
 "@ -ForegroundColor Gray
     Write-Host "`nPress any key to return to settings..." -ForegroundColor Yellow
-    $null = [System.Console]::ReadKey($true)
+    Wait-KeyPress
 }
 
 function Run-Diagnostics {
@@ -342,7 +352,7 @@ function Run-Diagnostics {
 
     Write-Host "==========================================================================" -ForegroundColor Cyan
     Write-Host "`nPress any key to return to settings..." -ForegroundColor Yellow
-    $null = [System.Console]::ReadKey($true)
+    Wait-KeyPress
 }
 
 function Copy-CustomInstructions {
@@ -445,9 +455,16 @@ while ($true) {
     Write-Host "==========================================================================" -ForegroundColor Cyan
 
     Write-Host -NoNewline "`nSelect an option to toggle (0-14, ?, T, C, U): "
-    $choice = Read-Host
+    $rawChoice = Read-Host
+    if ($rawChoice -eq $null) {
+        break
+    }
+    $choice = $rawChoice.Trim().ToUpper()
+    if ([string]::IsNullOrEmpty($choice)) {
+        continue
+    }
 
-    switch ($choice.ToUpper().Trim()) {
+    switch ($choice) {
         "1" { Toggle-Caching $cfg }
         "2" { Toggle-RTK $cfg }
         "3" { 
@@ -483,7 +500,7 @@ while ($true) {
         "0"  { exit }
         default {
             Write-Host "Invalid option. Press any key..." -ForegroundColor Yellow
-            $null = [System.Console]::ReadKey($true)
+            Wait-KeyPress
         }
     }
 }

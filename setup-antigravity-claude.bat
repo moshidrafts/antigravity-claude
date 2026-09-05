@@ -71,7 +71,12 @@ if (Test-Path $claudeMdDest) {
         $mdChoice = ""
         while ($mdChoice -notmatch '^[OAC]$') {
             Write-Host -NoNewline "      Select an option (O/A/C): " -ForegroundColor Yellow
-            $mdChoice = (Read-Host).Trim().ToUpper()
+            $rawInput = Read-Host
+            if ($rawInput -eq $null) {
+                $mdChoice = 'O'
+                break
+            }
+            $mdChoice = $rawInput.Trim().ToUpper()
         }
         
         if ($mdChoice -eq 'C') {

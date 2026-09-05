@@ -32,7 +32,7 @@
    ```
 2. Double-click **`setup-antigravity-claude.bat`**.
 3. **What happens automatically:**
-   - Deploys all 10 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
+   - Deploys all 11 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
    - Injects the global `CLAUDE.md` operating directive. *(If you already have an existing `CLAUDE.md`, the installer will ask whether to **[O]verwrite** with a `.bak` backup, **[A]ppend**, or **[C]ancel**!)*
    - Registers the global **`agy-settings`** CLI command in your PATH.
    - Automatically activates **1-Hour Prompt Caching** (`ENABLE_PROMPT_CACHING_1H=1`).

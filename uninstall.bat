@@ -33,6 +33,7 @@ $binDir = Join-Path $claudeDir "bin"
 $skillsToRemove = @(
     "antigravity",
     "antigravity-planner",
+    "caveman",
     "frontend-design",
     "test-driven-development",
     "systematic-debugging",
@@ -87,11 +88,13 @@ if (Test-Path $settingsJson) {
     } catch {}
 }
 
-# Remove global command launchers
+# Remove global command launchers & settings
 $agyBat = Join-Path $binDir "agy-settings.bat"
 $antigravityBat = Join-Path $binDir "antigravity-settings.bat"
+$settingsPs1 = Join-Path $binDir "settings.ps1"
 if (Test-Path $agyBat) { Remove-Item $agyBat -Force }
 if (Test-Path $antigravityBat) { Remove-Item $antigravityBat -Force }
+if (Test-Path $settingsPs1) { Remove-Item $settingsPs1 -Force }
 
 Write-Host "`n[4/5] Removing Prompt Caching Environment Variable..." -ForegroundColor Cyan
 [System.Environment]::SetEnvironmentVariable('ENABLE_PROMPT_CACHING_1H', $null, 'User')

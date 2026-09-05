@@ -23,6 +23,7 @@ BIN_DIR="$CLAUDE_DIR/bin"
 ALL_SKILLS=(
     "antigravity"
     "antigravity-planner"
+    "caveman"
     "frontend-design"
     "test-driven-development"
     "systematic-debugging"
@@ -57,8 +58,18 @@ rm -f "$BIN_DIR/agy-settings" 2>/dev/null || true
 rm -f "$BIN_DIR/settings.sh" 2>/dev/null || true
 
 echo "[4/5] Clearing prompt caching variables..."
-sed -i '' '/ENABLE_PROMPT_CACHING_1H/d' "$HOME/.bashrc" 2>/dev/null || true
-sed -i '' '/ENABLE_PROMPT_CACHING_1H/d' "$HOME/.zshrc" 2>/dev/null || true
+remove_line() {
+    local pattern="$1"
+    local file="$2"
+    [ -f "$file" ] || return 0
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        sed -i '' "$pattern" "$file" 2>/dev/null || true
+    else
+        sed -i "$pattern" "$file" 2>/dev/null || true
+    fi
+}
+remove_line '/ENABLE_PROMPT_CACHING_1H/d' "$HOME/.bashrc"
+remove_line '/ENABLE_PROMPT_CACHING_1H/d' "$HOME/.zshrc"
 
 echo "[5/5] Removing config..."
 rm -f "$CLAUDE_DIR/antigravity.json"
