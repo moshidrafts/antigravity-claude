@@ -27,7 +27,7 @@
 ### Windows (1-Click Setup)
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/moshidrafts/antigravity-claude.git
+   git clone https://github.com/moshidrafts/antigravity-for-claude-code.git
    ```
    2. Double-click **`setup-antigravity-claude.bat`**.
 3. **What happens automatically:**
@@ -41,7 +41,7 @@
 
 ### macOS & Linux (1-Line Command)
 ```bash
-git clone https://github.com/moshidrafts/antigravity-claude.git && cd antigravity-claude && chmod +x install.sh && ./install.sh
+git clone https://github.com/moshidrafts/antigravity-for-claude-code.git && cd antigravity-for-claude-code && chmod +x install.sh && ./install.sh
 ```
 
 ---
