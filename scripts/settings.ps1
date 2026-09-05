@@ -313,11 +313,23 @@ function Run-Diagnostics {
         Write-Host "  [!] Disabled Skills:       $disabledCount disabled" -ForegroundColor Yellow
     }
 
+    $marketplacesJson = Join-Path $claudeDir "plugins\known_marketplaces.json"
+    if (Test-Path $marketplacesJson) {
+        try {
+            $mObj = Get-Content $marketplacesJson -Raw | ConvertFrom-Json
+            $mCount = ($mObj.PSObject.Properties | Measure-Object).Count
+            Write-Host "  [+] Marketplaces:          $mCount registered (official, centminmod, community)" -ForegroundColor Green
+        } catch {}
+    }
+
     $pluginsJson = Join-Path $claudeDir "plugins\installed_plugins.json"
     if (Test-Path $pluginsJson) {
-        $pContent = Get-Content $pluginsJson -Raw
-        if ($pContent -like "*session-metrics*") {
-            Write-Host "  [+] Session Metrics:       ACTIVE (centminmod/session-metrics)" -ForegroundColor Green
+        try {
+            $pObj = Get-Content $pluginsJson -Raw | ConvertFrom-Json
+            $pCount = ($pObj.plugins.PSObject.Properties | Measure-Object).Count
+            Write-Host "  [+] Claude Code Plugins:   $pCount installed (session-metrics, LSPs, dev-suite)" -ForegroundColor Green
+        } catch {
+            Write-Host "  [+] Claude Code Plugins:   Configured" -ForegroundColor Green
         }
     }
 
