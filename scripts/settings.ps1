@@ -22,6 +22,8 @@ $allSkillNames = @(
     "antigravity",
     "antigravity-planner",
     "caveman",
+    "session-metrics",
+    "session-report",
     "frontend-design",
     "test-driven-development",
     "systematic-debugging",
@@ -36,6 +38,8 @@ $skillSubtitles = @{
     "antigravity"                    = "Core zero-fluff protocol & targeted chunk-diff rules"
     "antigravity-planner"            = "Mandatory Mermaid architecture flowcharts & approval gates"
     "caveman"                        = "JuliusBrussee: Ultra-compressed token communication (cuts 60-75% output tokens)"
+    "session-metrics"                = "Real-time session token cost timeline, cache efficiency & waste analysis"
+    "session-report"                 = "Official Anthropic: Self-contained interactive HTML session dashboard"
     "frontend-design"                = "Anthropic boutique visual design standards (anti-AI slop)"
     "test-driven-development"        = "obra/superpowers: Enforces failing tests before writing code"
     "systematic-debugging"           = "obra/superpowers: 4-phase root cause analysis before fixes"
@@ -277,28 +281,36 @@ BUNDLED SKILLS DIRECTORY:
    - Saves: 60% to 75% output tokens on conversational turns without sacrificing code accuracy.
    - Note: Not baby-talk or broken typos; uses Simplified Technical English (ASD-STE100).
 
-7. frontend-design: Anthropic's official design system preventing 'AI slop'
+7. session-metrics: Real-time token spend, cost timeline, and waste analysis engine.
+   - What it does: Runs local python analysis on Claude Code session logs to calculate
+     exact USD cost, cache efficiency rates, and anomaly detection. Zero always-on token cost.
+
+8. session-report: Official Anthropic interactive HTML session dashboard.
+   - What it does: Parses transcripts across ~/.claude/projects and generates a self-contained
+     interactive HTML dashboard with sortable tables, token bars, and cache-break heatmaps.
+
+9. frontend-design: Anthropic's official design system preventing 'AI slop'
    (generic purple gradients, boring cards). Enforces boutique studio aesthetics.
 
-8. test-driven-development: Jesse Vincent's obra/superpowers skill. Forces Claude
-   to write a failing test first, verify the failure, and write minimal code to pass.
+10. test-driven-development: Jesse Vincent's obra/superpowers skill. Forces Claude
+    to write a failing test first, verify the failure, and write minimal code to pass.
 
-9. systematic-debugging: 4-phase root cause analysis (observe, hypothesize, isolate,
-   verify). Eliminates random guessing and symptom-treating hacks.
+11. systematic-debugging: 4-phase root cause analysis (observe, hypothesize, isolate,
+    verify). Eliminates random guessing and symptom-treating hacks.
 
-10. verification-before-completion: Prohibits declaring work 'fixed' or 'complete'
+12. verification-before-completion: Prohibits declaring work 'fixed' or 'complete'
     without executing automated tests or build verification commands first.
 
-11. web-artifacts-builder: Complete multi-component React 18 + Tailwind CSS +
+13. web-artifacts-builder: Complete multi-component React 18 + Tailwind CSS +
     shadcn/ui application builder for rich interactive side-panel artifacts.
 
-12. xlsx: Official Anthropic skill to manipulate real Excel workbooks (.xlsx),
+14. xlsx: Official Anthropic skill to manipulate real Excel workbooks (.xlsx),
     compute formulas, build charts, and clean tabular data without corrupting XML.
 
-13. pdf: Official Anthropic skill to extract tables, split/merge pages, rotate,
+15. pdf: Official Anthropic skill to extract tables, split/merge pages, rotate,
     decrypt, and perform OCR on scanned PDF files.
 
-14. docx: Official Anthropic skill to create and edit professional Word (.docx)
+16. docx: Official Anthropic skill to create and edit professional Word (.docx)
     documents with custom headings, styles, and tables of contents.
 ==========================================================================
 "@ -ForegroundColor Gray
@@ -499,7 +511,7 @@ while ($true) {
     Write-Host "  [0] Exit Settings" -ForegroundColor Gray
     Write-Host "==========================================================================" -ForegroundColor Cyan
 
-    Write-Host -NoNewline "`nSelect an option to toggle (0-14, ?, T, C, U): "
+    Write-Host -NoNewline "`nSelect an option to toggle (0-16, ?, T, C, U): "
     $rawChoice = Read-Host
     if ($rawChoice -eq $null) {
         break
@@ -518,14 +530,16 @@ while ($true) {
         "4"  { Toggle-Skill "antigravity" $cfg }
         "5"  { Toggle-Skill "antigravity-planner" $cfg }
         "6"  { Toggle-Skill "caveman" $cfg }
-        "7"  { Toggle-Skill "frontend-design" $cfg }
-        "8"  { Toggle-Skill "test-driven-development" $cfg }
-        "9"  { Toggle-Skill "systematic-debugging" $cfg }
-        "10" { Toggle-Skill "verification-before-completion" $cfg }
-        "11" { Toggle-Skill "web-artifacts-builder" $cfg }
-        "12" { Toggle-Skill "xlsx" $cfg }
-        "13" { Toggle-Skill "pdf" $cfg }
-        "14" { Toggle-Skill "docx" $cfg }
+        "7"  { Toggle-Skill "session-metrics" $cfg }
+        "8"  { Toggle-Skill "session-report" $cfg }
+        "9"  { Toggle-Skill "frontend-design" $cfg }
+        "10" { Toggle-Skill "test-driven-development" $cfg }
+        "11" { Toggle-Skill "systematic-debugging" $cfg }
+        "12" { Toggle-Skill "verification-before-completion" $cfg }
+        "13" { Toggle-Skill "web-artifacts-builder" $cfg }
+        "14" { Toggle-Skill "xlsx" $cfg }
+        "15" { Toggle-Skill "pdf" $cfg }
+        "16" { Toggle-Skill "docx" $cfg }
         "?"  { Show-FeatureGuide }
         "T"  { Run-Diagnostics }
         "C"  { Copy-CustomInstructions }

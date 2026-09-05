@@ -24,6 +24,8 @@ ALL_SKILLS=(
     "antigravity"
     "antigravity-planner"
     "caveman"
+    "session-metrics"
+    "session-report"
     "graphify"
     "frontend-design"
     "test-driven-development"

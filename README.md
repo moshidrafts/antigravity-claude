@@ -31,7 +31,7 @@
    ```
    2. Double-click **`setup-antigravity-claude.bat`**.
 3. **What happens automatically:**
-   - Deploys all 12 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
+   - Deploys all 14 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
    - Injects the global `CLAUDE.md` operating directive. *(If you already have an existing `CLAUDE.md`, the installer will ask whether to **[O]verwrite** with a `.bak` backup, **[A]ppend**, or **[C]ancel**!)*
    - Registers the global **`agy-settings`** CLI command in your PATH.
    - Automatically activates **1-Hour Prompt Caching** (`ENABLE_PROMPT_CACHING_1H=1`).
@@ -72,21 +72,25 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
       |-- Mandatory Mermaid architecture flowcharts & approval gates
   [ 6] caveman                        [ ENABLED  ]
       |-- JuliusBrussee: Ultra-compressed token communication (cuts 60-75% output tokens)
-  [ 7] frontend-design                [ ENABLED  ]
+  [ 7] session-metrics                [ ENABLED  ]
+      |-- Real-time session token cost timeline, cache efficiency & waste analysis
+  [ 8] session-report                 [ ENABLED  ]
+      |-- Official Anthropic: Self-contained interactive HTML session dashboard
+  [ 9] frontend-design                [ ENABLED  ]
       |-- Anthropic boutique visual design standards (anti-AI slop)
-  [ 8] test-driven-development        [ ENABLED  ]
+  [10] test-driven-development        [ ENABLED  ]
       |-- obra/superpowers: Enforces failing tests before writing code
-  [ 9] systematic-debugging           [ ENABLED  ]
+  [11] systematic-debugging           [ ENABLED  ]
       |-- obra/superpowers: 4-phase root cause analysis before fixes
-  [10] verification-before-completion [ ENABLED  ]
+  [12] verification-before-completion [ ENABLED  ]
       |-- obra/superpowers: Requires automated test proof before claims
-  [11] web-artifacts-builder          [ ENABLED  ]
+  [13] web-artifacts-builder          [ ENABLED  ]
       |-- Anthropic: React 18 + Tailwind + shadcn/ui multi-component apps
-  [12] xlsx                           [ ENABLED  ]
+  [14] xlsx                           [ ENABLED  ]
       |-- Anthropic: Native Excel spreadsheet creation, formulas & data
-  [13] pdf                            [ ENABLED  ]
+  [15] pdf                            [ ENABLED  ]
       |-- Anthropic: PDF text/table extraction, page merging & OCR
-  [14] docx                           [ ENABLED  ]
+  [16] docx                           [ ENABLED  ]
       |-- Anthropic: Word document formatting, styling & template generator
 
  ------------------------------------------------------------------------
@@ -107,53 +111,9 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
 
 ---
 
-## ⚡ Complete Slash Command (`/`) Cheat Sheet
-
-Type `/` in Claude Code anytime to autocomplete any of these commands. Everything is organized into dedicated categories:
-
-### 🏗️ Architecture, Planning & Token Compression (Native Skills)
-| Command | How to Use | What It Does & Behavioral Impact |
-| :--- | :--- | :--- |
-| **`/antigravity`** | `/antigravity` | Re-engages strict zero-fluff engineering protocol, high-density formatting, and surgical chunk-diff edits (70–85% token savings). |
-| **`/antigravity-planner`**| `/antigravity-planner` | Forces ripple impact analysis, interactive Mermaid architecture diagrams, and a hard approval gate before writing code. |
-| **`/caveman`** | `/caveman [full\|ultra\|lite\|stop]` | Slashes output tokens by 60–75% using ultra-compressed technical shorthand (strips all conversational filler while preserving exact code). |
-| **`/graphify`** | `/graphify .` or `/graphify query "..."` | Parses codebase into Tree-sitter AST knowledge graph; traverses call graphs and imports without burning tokens grepping. |
-
-### 🛡️ Rigorous Engineering Verification (Native Skills)
-| Command | How to Use | What It Does & Behavioral Impact |
-| :--- | :--- | :--- |
-| **`/test-driven-development`** | `/test-driven-development` | Enforces true red/green TDD: writes a failing test first, executes to prove failure, then writes minimal passing code. |
-| **`/systematic-debugging`** | `/systematic-debugging` | Runs strict 4-phase root-cause isolation (observe, hypothesize, isolate, verify) to stop random trial-and-error guessing. |
-| **`/verification-before-completion`** | `/verification-before-completion` | Prohibits declaring work "done" without executing concrete terminal test/build verification commands with exit code 0. |
-
-### 🎨 Visual Design & Rich Document Generation (Native Skills)
-| Command | How to Use | What It Does & Behavioral Impact |
-| :--- | :--- | :--- |
-| **`/frontend-design`** | `/frontend-design` | Eradicates "AI slop" with bespoke typography pairings, intentional palettes, micro-interactions, and boutique studio aesthetics. |
-| **`/web-artifacts-builder`**| `/web-artifacts-builder` | Complete production blueprint for multi-component **React 18 + Tailwind CSS + Lucide + shadcn/ui** interactive applications. |
-| **`/xlsx`** | `/xlsx` | Programmatic Excel spreadsheet engine: computes formulas (`SUM`, `VLOOKUP`), formats tables, and injects charts with zero XML corruption. |
-| **`/pdf`** | `/pdf` | Structural PDF extraction: extracts tabular coordinates, splits/merges pages, rotates, and runs OCR workflows. |
-| **`/docx`** | `/docx` | Generates professional Word documents with typography hierarchies, automated tables of contents, callouts, and corporate styling. |
-
-### 🚀 Git, Code Review & Developer Utilities (Plugins)
-| Command | How to Use | What It Does & Source |
-| :--- | :--- | :--- |
-| **`/code-review`** | `/code-review` | Audits uncommitted changes or branch diffs against review standards and best practices (`@claude-plugins-official`). |
-| **`/code-simplifier`** | `/code-simplifier` | Refactoring agent that eliminates over-engineering, dead abstractions, and bloat (`@claude-plugins-official`). |
-| **`/commit`** | `/commit` | Generates clean, conventional git commit messages based on staged changes (`@claude-plugins-official`). |
-| **`/commit-push-pr`** | `/commit-push-pr` | Creates a conventional commit, pushes the current branch, and opens a GitHub Pull Request (`@claude-plugins-official`). |
-| **`/clean_gone`** | `/clean_gone` | Prunes and deletes local git branches whose remotes have already been merged (`@claude-plugins-official`). |
-| **`/skill-creator`** | `/skill-creator` | Anthropic's official test and benchmarking harness for authoring, evaluating, and grading custom skills. |
-| **`/claude-security`** | `/claude-security` | Scans repository for vulnerabilities, analyzes blast radius, and drafts automated security patches. |
-| **`/build-mcp-server`** | `/build-mcp-server` | Scaffolds and verifies Model Context Protocol (MCP) server tools, resources, and schemas (`mcp-server-dev`). |
-| **`/create-docker-mcp-tunnel`** | `/create-docker-mcp-tunnel` | Sets up a secure Docker MCP tunnel for containerized development environments (`mcp-tunnels`). |
-| **`/new-sdk-app`** | `/new-sdk-app` | Scaffolds a new TypeScript or Python agent application using the official Anthropic Agent SDK (`agent-sdk-dev`). |
-
----
-
 ## 🛠️ Complete Feature & Skill Reference
 
-Here is the complete breakdown of every optimization, companion tool, and bundled skill in the suite.
+Here is the complete breakdown of every optimization, companion tool, bundled skill, and vetted developer plugin in the suite.
 
 ### ⚡ Token Optimizations & Companion Tools
 
@@ -165,20 +125,20 @@ Here is the complete breakdown of every optimization, companion tool, and bundle
 
 ---
 
-### 🧩 The Antigravity Skills Interactive Showcase (12 Skills)
+### ⚡ Interactive Command Center (14 Native Skills)
 
-All 12 skills are installed directly into your `~/.claude/skills/` directory and are managed via `agy-settings`. 
+All 14 native skills are installed directly into your `~/.claude/skills/` directory and can be toggled anytime via `agy-settings`. 
 
 > [!TIP]
-> **Click any skill below to interactively expand its triggers, behavioral impact, before/after examples, and token savings!**
+> **Click any slash command below to interactively expand its triggers, behavioral impact, before/after examples, and token savings!**
 
 #### 🏗️ Domain 1: Architectural Control & Token Compression
 
 <details>
-<summary><b>1. <code>antigravity</code> — High-Density Engineering & Chunk Diffs</b> <i>(Always Active)</i></summary>
+<summary><b>/antigravity</b> — High-Density Engineering & Chunk Diffs <i>(Always Active / Invoke via /antigravity)</i></summary>
 <br>
 
-* **Trigger**: Automatic across all coding queries, or invoke via `@antigravity`.
+* **Trigger**: Automatic across all coding queries, or invoke via `/antigravity` (or `@antigravity`).
 * **The Problem It Solves**: Standard Claude rewrites entire 400-line files to change 2 lines, burning thousands of output tokens and introducing silent syntax regressions. It also writes conversational preambles (*"I understand you want to..."*).
 * **Under The Hood**:
   1. **Zero Pleasantries**: Strictly bans conversational filler, pleasantries, and sign-offs.
@@ -198,10 +158,10 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 </details>
 
 <details>
-<summary><b>2. <code>antigravity-planner</code> — Mermaid Visuals & Approval Gates</b> <i>(Always Active)</i></summary>
+<summary><b>/antigravity-planner</b> — Mermaid Visuals & Approval Gates <i>(Always Active / Invoke via /antigravity-planner)</i></summary>
 <br>
 
-* **Trigger**: Multi-file refactors, new feature implementations, or complex bug fixes.
+* **Trigger**: Automatic on multi-file refactors and new features, or invoke directly via `/antigravity-planner`.
 * **The Problem It Solves**: LLMs hallucinate dependencies, blindly modify functions without checking what touches them, and output raw unrendered Mermaid code blocks.
 * **Under The Hood**:
   1. **Ripple Impact Check**: Discloses (1) What is currently there, (2) What intends to change, (3) Why.
@@ -211,7 +171,7 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 </details>
 
 <details>
-<summary><b>3. <code>caveman</code> — Ultra-Compressed Shorthand Mode</b> <i>(Trigger: <code>/caveman</code>)</i></summary>
+<summary><b>/caveman</b> — Ultra-Compressed Shorthand Mode <i>(Trigger: /caveman [full|ultra|lite|stop])</i></summary>
 <br>
 
 * **Trigger**: `/caveman` (Supports `/caveman full`, `/caveman ultra`, `/caveman lite`, `/caveman stop`).
@@ -226,7 +186,7 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 </details>
 
 <details>
-<summary><b>4. <code>graphify</code> — AST Codebase Knowledge Graph</b> <i>(Trigger: <code>/graphify</code>)</i></summary>
+<summary><b>/graphify</b> — AST Codebase Knowledge Graph <i>(Trigger: /graphify . or /graphify query)</i></summary>
 <br>
 
 * **Trigger**: `/graphify .` (build graph) or `/graphify query "How does auth flow?"`.
@@ -238,13 +198,45 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 
 ---
 
-#### 🛡️ Domain 2: Rigorous Engineering Verification
+#### 📊 Domain 2: Session Intelligence & Cost Analytics
 
 <details>
-<summary><b>5. <code>test-driven-development</code> — True Red/Green TDD</b> <i>(Trigger: <code>/test-driven-development</code>)</i></summary>
+<summary><b>/session-metrics</b> — Real-Time Session Token Spend & Cost Timeline <i>(Trigger: /session-metrics)</i></summary>
 <br>
 
-* **Trigger**: Writing new features, bug fixes, or unit tests.
+* **Trigger**: `/session-metrics` (Supports flags like `/session-metrics --all`, `/session-metrics --since 7d`, `/session-metrics --budget 10.00`).
+* **Source**: Local Python analysis engine with **zero always-on token overhead**.
+* **The Problem It Solves**: Developers blindly burn API budget without knowing which prompts, tools, or subagents depleted their tokens or why cache misses occurred.
+* **Under The Hood**: Parses session JSONL logs across `~/.claude/projects/` to compute:
+  1. **Accurate Dollar Cost**: Exact pricing for Sonnet 4, Opus, and Haiku models including input, output, cache-write, and cache-read tokens.
+  2. **Cache Efficiency & Waste Analysis**: Cache hit ratios, subagent overhead, tool execution token consumption, and anomalous spend spikes.
+  3. **Zero Token Footprint**: Runs 100% locally via Python with zero system prompt token injection.
+* **Financial Impact**: 💰 **Complete transparency into token costs and instant budget alerts.**
+</details>
+
+<details>
+<summary><b>/session-report</b> — Interactive HTML Session Dashboard <i>(Trigger: /session-report)</i></summary>
+<br>
+
+* **Trigger**: `/session-report` (Supports flags like `/session-report --days 7`, `/session-report --open`).
+* **Source**: Official Anthropic
+* **The Problem It Solves**: Raw terminal logs make it impossible to visualize multi-day spend trends, cache-break hot spots, or tool call patterns.
+* **Under The Hood**: Standalone Node.js analysis engine (`analyze-sessions.mjs`) that builds a self-contained, responsive HTML dashboard:
+  1. **Visual Breakdown**: Interactive token usage breakdown bar, cache-break heatmaps, and tool call frequency charts.
+  2. **Session Transcripts Table**: Sortable table of all past sessions with durations, cost in USD, and exit statuses.
+  3. **Offline & Self-Contained**: Generates a single zero-dependency HTML report that opens instantly in your default browser.
+* **Visibility Impact**: 📊 **Studio-grade visual analytics for your Claude Code sessions.**
+</details>
+
+---
+
+#### 🛡️ Domain 3: Rigorous Engineering Verification
+
+<details>
+<summary><b>/test-driven-development</b> — True Red/Green TDD <i>(Trigger: /test-driven-development)</i></summary>
+<br>
+
+* **Trigger**: Writing new features, bug fixes, or unit tests (`/test-driven-development`).
 * **Source**: [obra/superpowers](https://github.com/obra/superpowers)
 * **The Problem It Solves**: AI writes implementation code first, then writes confirmation-bias tests that test the implementation rather than the requirements (or mocks everything).
 * **Under The Hood**:
@@ -256,10 +248,10 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 </details>
 
 <details>
-<summary><b>6. <code>systematic-debugging</code> — 4-Phase Root Cause Isolation</b> <i>(Trigger: <code>/systematic-debugging</code>)</i></summary>
+<summary><b>/systematic-debugging</b> — 4-Phase Root Cause Isolation <i>(Trigger: /systematic-debugging)</i></summary>
 <br>
 
-* **Trigger**: Investigating test failures, crashes, performance regressions, or mysterious bugs.
+* **Trigger**: Investigating test failures, crashes, performance regressions, or mysterious bugs (`/systematic-debugging`).
 * **Source**: [obra/superpowers](https://github.com/obra/superpowers)
 * **The Problem It Solves**: AI guesses random fixes, swaps lines around, and masks symptoms with try/catch wrappers.
 * **Under The Hood**: Strict 4 phases:
@@ -271,7 +263,7 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 </details>
 
 <details>
-<summary><b>7. <code>verification-before-completion</code> — Evidence-Based Sign-off</b> <i>(Always Active)</i></summary>
+<summary><b>/verification-before-completion</b> — Evidence-Based Sign-off <i>(Always Active / Trigger: /verification-before-completion)</i></summary>
 <br>
 
 * **Trigger**: Finalizing any task, bug fix, or PR.
@@ -283,13 +275,13 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 
 ---
 
-#### 🎨 Domain 3: Visual Design & Rich Document Generation
+#### 🎨 Domain 4: Visual Design & Rich Document Generation
 
 <details>
-<summary><b>8. <code>frontend-design</code> — Studio-Grade Aesthetic Standards</b> <i>(Trigger: <code>/frontend-design</code>)</i></summary>
+<summary><b>/frontend-design</b> — Studio-Grade Aesthetic Standards <i>(Trigger: /frontend-design)</i></summary>
 <br>
 
-* **Trigger**: Designing web UIs, dashboards, landing pages, or components.
+* **Trigger**: Designing web UIs, dashboards, landing pages, or components (`/frontend-design`).
 * **Source**: Official Anthropic
 * **The Problem It Solves**: "AI Slop" — cliché purple/indigo gradients, generic rounded cards, Roboto fonts, and cookie-cutter layouts.
 * **Under The Hood**: Enforces distinctive typography pairings (serif editorial, high-contrast monospace, neo-grotesque), intentional cohesive palettes, micro-interactions, subtle borders, and boutique aesthetic direction.
@@ -297,10 +289,10 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 </details>
 
 <details>
-<summary><b>9. <code>web-artifacts-builder</code> — Production React + Tailwind Blueprint</b> <i>(Trigger: <code>/web-artifacts-builder</code>)</i></summary>
+<summary><b>/web-artifacts-builder</b> — Production React + Tailwind Blueprint <i>(Trigger: /web-artifacts-builder)</i></summary>
 <br>
 
-* **Trigger**: Building interactive multi-component React applications.
+* **Trigger**: Building interactive multi-component React applications (`/web-artifacts-builder`).
 * **Source**: Official Anthropic
 * **The Problem It Solves**: Monolithic single-file React components with fragile state management and unstyled markup.
 * **Under The Hood**: Production blueprint using **React 18 + Tailwind CSS + Lucide icons + shadcn/ui components** with proper state management and responsiveness.
@@ -308,30 +300,30 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 </details>
 
 <details>
-<summary><b>10. <code>xlsx</code> — Corruption-Free Excel Engine</b> <i>(Trigger: <code>/xlsx</code>)</i></summary>
+<summary><b>/xlsx</b> — Corruption-Free Excel Engine <i>(Trigger: /xlsx)</i></summary>
 <br>
 
-* **Trigger**: Creating, formatting, or updating Excel spreadsheets (`.xlsx`).
+* **Trigger**: Creating, formatting, or updating Excel spreadsheets (`.xlsx`) via `/xlsx`.
 * **Source**: Official Anthropic
 * **The Problem It Solves**: LLMs corrupting raw XML or generating broken formulas inside spreadsheet files.
 * **Under The Hood**: Programmatic Python spreadsheet engine (`openpyxl`/`pandas`) ensuring valid formulas (`SUM`, `VLOOKUP`, `XLOOKUP`), conditional formatting, chart insertion, and strict XML schema validation.
 </details>
 
 <details>
-<summary><b>11. <code>pdf</code> — Structural Extraction & OCR Engine</b> <i>(Trigger: <code>/pdf</code>)</i></summary>
+<summary><b>/pdf</b> — Structural Extraction & OCR Engine <i>(Trigger: /pdf)</i></summary>
 <br>
 
-* **Trigger**: Extracting text/tables, merging, splitting, rotating, or decrypting PDFs.
+* **Trigger**: Extracting text/tables, merging, splitting, rotating, or decrypting PDFs via `/pdf`.
 * **Source**: Official Anthropic
 * **The Problem It Solves**: Regex text extractors that mangle tabular coordinates and multi-column magazine layouts.
 * **Under The Hood**: Structural extraction pipeline that preserves bounding boxes, tabular column alignment, and OCR text recognition.
 </details>
 
 <details>
-<summary><b>12. <code>docx</code> — Professional Word Document Generator</b> <i>(Trigger: <code>/docx</code>)</i></summary>
+<summary><b>/docx</b> — Professional Word Document Generator <i>(Trigger: /docx)</i></summary>
 <br>
 
-* **Trigger**: Generating formal documents, client proposals, contracts, or specs (`.docx`).
+* **Trigger**: Generating formal documents, client proposals, contracts, or specs (`.docx`) via `/docx`.
 * **Source**: Official Anthropic
 * **The Problem It Solves**: Unformatted raw text dumped into a blank Word doc.
 * **Under The Hood**: Formats Word documents with custom typography hierarchies, automated tables of contents, callout boxes, headers/footers, and corporate styling standards.
@@ -339,7 +331,7 @@ All 12 skills are installed directly into your `~/.claude/skills/` directory and
 
 ---
 
-### ⚡ Vetted Developer Plugins & Compiler LSPs (10 Tools)
+### 🚀 Vetted Developer Plugins & Compiler LSPs (10 Tools)
 
 Unlike third-party plugin packs that inject thousands of always-on tokens into every prompt and spam your slash (`/`) autocomplete menu with noisy colon-prefixed commands, the suite automatically provisions 10 vetted, clean developer tools:
 
@@ -356,7 +348,7 @@ Unlike third-party plugin packs that inject thousands of always-on tokens into e
 | **`commit-commands`** | Conventional git commits and branch cleanup via `/commit`, `/commit-push-pr`, `/clean_gone`. | Minimal |
 | **`skill-creator`** | Anthropic's official test and benchmarking harness for authoring custom skills. | Minimal |
 | **`claude-security`** | Official security auditor: scans codebases for vulnerabilities and generates patches. | Minimal |
-| **`mcp-server-dev`** | Scaffolding, resource schemas, and tool design patterns for Model Context Protocol servers. | Minimal |
+| **`mcp-server-dev`** | Scaffolding, resource schemas, and tool design patterns for Model Context Protocol servers via `/build-mcp-server`. | Minimal |
 | **`mcp-tunnels`** | Secure Docker MCP tunneling utility via `/create-docker-mcp-tunnel`. | Minimal |
 | **`agent-sdk-dev`** | Verification tools and app generator via `/new-sdk-app` for Anthropic Agent SDK. | Minimal |
 </details>

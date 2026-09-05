@@ -1,0 +1,17 @@
+﻿# Python
+__pycache__/
+*.py[cod]
+*.class
+*.pyc
+
+# Node
+node_modules/
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Claude local backups
+*.bak

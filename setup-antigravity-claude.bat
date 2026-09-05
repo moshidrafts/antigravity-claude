@@ -140,6 +140,8 @@ if (-not (Test-Path $configFile)) {
             "antigravity-planner" = $true
             "caveman" = $true
             "graphify" = $true
+            "session-metrics" = $true
+            "session-report" = $true
             "frontend-design" = $true
             "test-driven-development" = $true
             "systematic-debugging" = $true
