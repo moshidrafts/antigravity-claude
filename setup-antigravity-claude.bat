@@ -43,7 +43,7 @@ New-Item -ItemType Directory -Force -Path $catalogDir | Out-Null
 New-Item -ItemType Directory -Force -Path $binDir | Out-Null
 
 # 2. Deploy Skills & Catalog
-Write-Host "`n[1/6] Deploying 10 skills to $skillsDir and $catalogDir..." -ForegroundColor Yellow -NoNewline
+Write-Host "`n[1/6] Deploying 11 skills to $skillsDir and $catalogDir..." -ForegroundColor Yellow -NoNewline
 if (Test-Path $localSkills) {
     Get-ChildItem -Path $localSkills -Directory | ForEach-Object {
         $target = Join-Path $skillsDir $_.Name
@@ -133,6 +133,7 @@ if (-not (Test-Path $configFile)) {
         skills = [ordered]@{
             "antigravity" = $true
             "antigravity-planner" = $true
+            "caveman" = $true
             "frontend-design" = $true
             "test-driven-development" = $true
             "systematic-debugging" = $true
@@ -216,7 +217,7 @@ Write-Host "  5. Open your terminal, run 'claude', and start building!" -Foregro
 Write-Host "`n==========================================================================" -ForegroundColor Cyan
 Write-Host "                    3. SETTINGS & GLOBAL COMMAND                          " -ForegroundColor Cyan
 Write-Host "==========================================================================" -ForegroundColor Cyan
-Write-Host "  * All 10 skills and 1-hour prompt caching are ENABLED by default." -ForegroundColor Green
+Write-Host "  * All 11 skills and 1-hour prompt caching are ENABLED by default." -ForegroundColor Green
 Write-Host "  * You can now run 'agy-settings' from ANY terminal on your computer!" -ForegroundColor Yellow
 Write-Host "  * Or run 'settings.bat' right here in this folder." -ForegroundColor Gray
 Write-Host "==========================================================================" -ForegroundColor Cyan

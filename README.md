@@ -70,21 +70,23 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
       └─ Core zero-fluff protocol & targeted chunk-diff rules
   [ 5] antigravity-planner            [ ENABLED  ]
       └─ Mandatory Mermaid architecture flowcharts & approval gates
-  [ 6] frontend-design                [ ENABLED  ]
+  [ 6] caveman                        [ ENABLED  ]
+      └─ JuliusBrussee: Ultra-compressed token communication (cuts 60-75% output tokens)
+  [ 7] frontend-design                [ ENABLED  ]
       └─ Anthropic boutique visual design standards (anti-AI slop)
-  [ 7] test-driven-development        [ ENABLED  ]
+  [ 8] test-driven-development        [ ENABLED  ]
       └─ obra/superpowers: Enforces failing tests before writing code
-  [ 8] systematic-debugging           [ ENABLED  ]
+  [ 9] systematic-debugging           [ ENABLED  ]
       └─ obra/superpowers: 4-phase root cause analysis before fixes
-  [ 9] verification-before-completion [ ENABLED  ]
+  [10] verification-before-completion [ ENABLED  ]
       └─ obra/superpowers: Requires automated test proof before claims
-  [10] web-artifacts-builder          [ ENABLED  ]
+  [11] web-artifacts-builder          [ ENABLED  ]
       └─ Anthropic: React 18 + Tailwind + shadcn/ui multi-component apps
-  [11] xlsx                           [ ENABLED  ]
+  [12] xlsx                           [ ENABLED  ]
       └─ Anthropic: Native Excel spreadsheet creation, formulas & data
-  [12] pdf                            [ ENABLED  ]
+  [13] pdf                            [ ENABLED  ]
       └─ Anthropic: PDF text/table extraction, page merging & OCR
-  [13] docx                           [ ENABLED  ]
+  [14] docx                           [ ENABLED  ]
       └─ Anthropic: Word document formatting, styling & template generator
 
  ------------------------------------------------------------------------
@@ -127,6 +129,7 @@ All skills are installed directly into your `~/.claude/skills/` folder:
 | :--- | :--- | :--- |
 | **`antigravity`** | Antigravity Core | Enforces zero conversational pleasantries, high-density formatting, and **targeted chunk-based edits** (never rewrites 300+ line files for a 3-line tweak). |
 | **`antigravity-planner`** | Custom Suite | Mandates **interactive Mermaid architecture flowcharts**, ripple impact analysis, and hard approval gates before editing code. |
+| **`caveman`** | `JuliusBrussee/caveman` | Ultra-compressed communication mode. Strips filler, hedging, and pleasantries while keeping exact technical terms and code. **Cuts output tokens by 60–75%**. |
 | **`frontend-design`** | Official Anthropic | Eradicates "AI slop" (cliché purple gradients, generic bootstrap cards). Enforces distinctive palettes, intentional typography, and boutique studio aesthetics. |
 | **`test-driven-development`** | `obra/superpowers` | Enforces true red/green TDD: Claude must write an automated test that reproduces the bug or tests the requirement, verify it fails, and only then write minimal passing code. |
 | **`systematic-debugging`** | `obra/superpowers` | 4-phase root cause analysis (observe, hypothesize, isolate, verify). Stops random guessing and symptom-treating hacks. |
@@ -167,6 +170,7 @@ graph TD
 
 ## 🙏 Acknowledgements & Credits
 - Inspired by the foundational token optimization work in [claude-token-optimizer](https://github.com/KINGSTAR-OMEGA/claude-token-optimizer) by [@KINGSTAR-OMEGA](https://github.com/KINGSTAR-OMEGA).
+- Ultra-compressed communication skill derived from [caveman](https://github.com/JuliusBrussee/caveman) by [@JuliusBrussee](https://github.com/JuliusBrussee).
 - Core software engineering skills derived from [superpowers](https://github.com/obra/superpowers) by [@obra](https://github.com/obra).
 - Official design and document skills by [Anthropic](https://github.com/anthropics/skills).
 
