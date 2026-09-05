@@ -313,6 +313,14 @@ function Run-Diagnostics {
         Write-Host "  [!] Disabled Skills:       $disabledCount disabled" -ForegroundColor Yellow
     }
 
+    $pluginsJson = Join-Path $claudeDir "plugins\installed_plugins.json"
+    if (Test-Path $pluginsJson) {
+        $pContent = Get-Content $pluginsJson -Raw
+        if ($pContent -like "*session-metrics*") {
+            Write-Host "  [+] Session Metrics:       ACTIVE (centminmod/session-metrics)" -ForegroundColor Green
+        }
+    }
+
     $agyCmd = Get-Command agy-settings -ErrorAction SilentlyContinue
     if ($agyCmd -or (Test-Path (Join-Path $binDir "agy-settings.bat"))) {
         Write-Host "  [+] Global agy-settings:   AVAILABLE ('agy-settings' in any terminal)" -ForegroundColor Green
