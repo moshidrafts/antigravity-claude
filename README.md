@@ -149,7 +149,6 @@ Type `/` in Claude Code anytime to autocomplete any of these commands. Everythin
 | **`/create-docker-mcp-tunnel`** | `/create-docker-mcp-tunnel` | Sets up a secure Docker MCP tunnel for containerized development environments (`mcp-tunnels`). |
 | **`/new-sdk-app`** | `/new-sdk-app` | Scaffolds a new TypeScript or Python agent application using the official Anthropic Agent SDK (`agent-sdk-dev`). |
 
-
 ---
 
 ## 🛠️ Complete Feature & Skill Reference
@@ -361,7 +360,6 @@ Unlike third-party plugin packs that inject thousands of always-on tokens into e
 | **`mcp-tunnels`** | Secure Docker MCP tunneling utility via `/create-docker-mcp-tunnel`. | Minimal |
 | **`agent-sdk-dev`** | Verification tools and app generator via `/new-sdk-app` for Anthropic Agent SDK. | Minimal |
 </details>
-
 
 ---
 
