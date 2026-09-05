@@ -149,16 +149,6 @@ Type `/` in Claude Code anytime to autocomplete any of these commands. Everythin
 | **`/create-docker-mcp-tunnel`** | `/create-docker-mcp-tunnel` | Sets up a secure Docker MCP tunnel for containerized development environments (`mcp-tunnels`). |
 | **`/new-sdk-app`** | `/new-sdk-app` | Scaffolds a new TypeScript or Python agent application using the official Anthropic Agent SDK (`agent-sdk-dev`). |
 
-### 🎬 Programmatic Video Suite (Remotion Skills in `~/.agents/skills/`)
-| Command | How to Use | What It Does & Behavioral Impact |
-| :--- | :--- | :--- |
-| **`/remotion-create`** | `/remotion-create` | Scaffolds new Remotion React video compositions, roots, and project configurations. |
-| **`/remotion-captions`** | `/remotion-captions` | Word-level animated subtitle timing, SRT parsing, kinetic typography, and caption styling. |
-| **`/remotion-docs`** | `/remotion-docs` | Queries Remotion animation timing (`spring`, `interpolate`), frame calculations, and hooks. |
-| **`/remotion-interactivity`** | `/remotion-interactivity` | Embeds interactive video players and clickable canvas overlays in React apps. |
-| **`/remotion-render`** | `/remotion-render` | Headless CLI rendering, AWS Lambda distributed render pipelines, and Docker ffmpeg configs. |
-| **`/remotion-studio`** | `/remotion-studio` | Configures the Remotion Studio preview player, timeline navigation, and audio tracks. |
-| **`/remotion-*`** | `/remotion-best-practices`, etc. | Maps, markup, multimedia, SaaS templates, and version upgrade guides. |
 
 ---
 
@@ -372,27 +362,6 @@ Unlike third-party plugin packs that inject thousands of always-on tokens into e
 | **`agent-sdk-dev`** | Verification tools and app generator via `/new-sdk-app` for Anthropic Agent SDK. | Minimal |
 </details>
 
----
-
-### 🎬 Programmatic Video Generation Suite (12 Remotion Skills)
-
-If you create programmatic videos, motion graphics, automated TikTok/Reels, or video ads in React:
-
-<details>
-<summary><b>Click to view the 12 Remotion Video Skills (in <code>~/.agents/skills/</code>)</b></summary>
-<br>
-
-All 12 Remotion skills are preserved in `~/.agents/skills/` and linked via junctions into your environment:
-- **`remotion-create`**: Scaffolding new Remotion projects, compositions, and sequences.
-- **`remotion-captions`**: Animated subtitles, SRT parsing, word-level highlight timing.
-- **`remotion-docs`**: Official API guidelines, hooks (`useCurrentFrame`, `useVideoConfig`), and animation timing (`spring`, `interpolate`).
-- **`remotion-interactivity`**: Player embedding, user controls, and interactive canvas overlays.
-- **`remotion-render`**: Headless CLI rendering, AWS Lambda distributed rendering, and Docker ffmpeg configs.
-- **`remotion-studio`**: Preview server setup, timeline navigation, and live reload optimizations.
-- **`remotion-best-practices`**, **`remotion-maps`**, **`remotion-markup`**, **`remotion-multimedia`**, **`remotion-saas`**, **`remotion-upgrade`**.
-
-> **Pro-Tip**: You can also link them at the project level (`<video-repo>/.claude/skills/`) so your global everyday coding menu stays minimal!
-</details>
 
 ---
 
