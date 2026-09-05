@@ -151,7 +151,22 @@ Both `setup-antigravity-claude.bat` and `install.sh` automatically set `ENABLE_P
 - **1-Click Install:** Run `scripts/install-rtk.ps1` (or `./scripts/install-rtk.sh` on Unix), or select option `[2]` inside `settings.bat`.
 - Automatically configures Claude Code hooks in `~/.claude/settings.json`.
 
-### 3. Safe Uninstaller (`uninstall.bat` / `uninstall.sh`)
+### 3. Complete Observability & Spend Intelligence Stack
+Gain 100% visibility into token spend, cache efficiency, and waste across your sessions:
+- **`session-metrics` (`@centminmod`)**: Real-time in-session cost and 9-category waste breakdown (*"how much has this session cost?"* or `/session-metrics`).
+- **`session-report` (`@claude-plugins-official`)**: Self-contained interactive HTML analytics dashboard with cache-break heatmaps and subagent costs (`/session-report`).
+- **`receipts` (`@claude-plugins-official`)**: Proof-of-work receipts correlating Claude Code sessions with git commits, projects, and CSV exports (`/receipts`).
+
+### 4. Compiler-Grade Language Server Protocols (LSPs)
+Eliminate brute-force file grepping and hallucinated imports:
+- **`pyright-lsp`**: Instant Python type definitions, signatures, and compiler diagnostics.
+- **`typescript-lsp`**: Direct TypeScript/JavaScript symbol navigation and compiler error detection.
+
+### 5. Git & Review Workflow Automation
+- **`commit-commands`**: Clean conventional git commits and branch cleanup (`/commit`, `/commit-push-pr`, `/clean_gone`).
+- **`pr-review-toolkit`**: Multi-agent automated pull request review suite (`code-reviewer`, `silent-failure-hunter`, `type-design-analyzer`).
+
+### 6. Safe Uninstaller (`uninstall.bat` / `uninstall.sh`)
 Need to revert? Double-click `uninstall.bat` or run `./uninstall.sh`. It safely cleans up all Antigravity skills, resets environment variables, and preserves any personal custom skills outside this suite.
 
 ---
@@ -171,6 +186,7 @@ graph TD
 ## 🙏 Acknowledgements & Credits
 - Inspired by the foundational token optimization work in [claude-token-optimizer](https://github.com/KINGSTAR-OMEGA/claude-token-optimizer) by [@KINGSTAR-OMEGA](https://github.com/KINGSTAR-OMEGA).
 - Ultra-compressed communication skill derived from [caveman](https://github.com/JuliusBrussee/caveman) by [@JuliusBrussee](https://github.com/JuliusBrussee).
+- Token usage analyzer and marketplace infrastructure from [centminmod/claude-plugins](https://github.com/centminmod/claude-plugins) by [@centminmod](https://github.com/centminmod).
 - Core software engineering skills derived from [superpowers](https://github.com/obra/superpowers) by [@obra](https://github.com/obra).
 - Official design and document skills by [Anthropic](https://github.com/anthropics/skills).
 

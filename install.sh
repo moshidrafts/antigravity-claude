@@ -82,7 +82,18 @@ if [[ ":$PATH:" != *":$BIN_DIR:"* ]]; then
 fi
 echo "[DONE]"
 
-echo -n "[5/6] Copying Custom Instructions to Clipboard... "
+# 5. Register Marketplaces and Plugins if claude is present
+if command -v claude >/dev/null 2>&1; then
+    echo "[5/6] Registering Claude Marketplaces & Recommended Plugins..."
+    claude plugin marketplace add centminmod/claude-plugins >/dev/null 2>&1 || true
+    claude plugin marketplace add anthropics/claude-plugins-community >/dev/null 2>&1 || true
+    for p in session-metrics@centminmod session-report@claude-plugins-official receipts@claude-plugins-official commit-commands@claude-plugins-official pr-review-toolkit@claude-plugins-official pyright-lsp@claude-plugins-official typescript-lsp@claude-plugins-official; do
+        claude plugin install "$p" >/dev/null 2>&1 || true
+    done
+    echo "  -> Marketplaces and recommended plugins configured."
+fi
+
+echo -n "[6/6] Copying Custom Instructions to Clipboard... "
 if command -v pbcopy >/dev/null 2>&1; then
     cat "$SCRIPT_DIR/CLAUDE.md" | pbcopy
     echo "[COPIED (pbcopy)]"

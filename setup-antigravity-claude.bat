@@ -147,7 +147,32 @@ if (-not (Test-Path $configFile)) {
     $cfg | ConvertTo-Json -Depth 5 | Set-Content $configFile -Encoding UTF8
 }
 
-# 7. Instructions Copy with Safety
+# 7. Configure Marketplaces & Recommended Plugins (if Claude CLI is present)
+$claudeCmd = Get-Command claude -ErrorAction SilentlyContinue
+if ($claudeCmd) {
+    Write-Host "[5/6] Registering Claude Marketplaces & Recommended Plugins..." -ForegroundColor Yellow
+    try {
+        & claude plugin marketplace add centminmod/claude-plugins 2>&1 | Out-Null
+        & claude plugin marketplace add anthropics/claude-plugins-community 2>&1 | Out-Null
+        $recommendedPlugins = @(
+            "session-metrics@centminmod",
+            "session-report@claude-plugins-official",
+            "receipts@claude-plugins-official",
+            "commit-commands@claude-plugins-official",
+            "pr-review-toolkit@claude-plugins-official",
+            "pyright-lsp@claude-plugins-official",
+            "typescript-lsp@claude-plugins-official"
+        )
+        foreach ($p in $recommendedPlugins) {
+            & claude plugin install $p 2>&1 | Out-Null
+        }
+        Write-Host "  -> Marketplaces and recommended plugins configured successfully." -ForegroundColor Green
+    } catch {
+        Write-Host "  -> Plugin configuration skipped." -ForegroundColor DarkGray
+    }
+}
+
+# 8. Instructions Copy with Safety
 $instructions = @"
 # ANTIGRAVITY PROTOCOL & ARTIFACT DIRECTIVE
 
@@ -175,9 +200,9 @@ Never dump long plans, task checklists, or extensive code into chat. Always gene
 
 try {
     Set-Clipboard -Value $instructions
-    Write-Host "[5/6] Copying Custom Instructions to Windows Clipboard... [COPIED]" -ForegroundColor Green
+    Write-Host "[6/6] Copying Custom Instructions to Windows Clipboard... [COPIED]" -ForegroundColor Green
 } catch {
-    Write-Host "[5/6] Copying Custom Instructions to Windows Clipboard... [MANUAL COPY]" -ForegroundColor Yellow
+    Write-Host "[6/6] Copying Custom Instructions to Windows Clipboard... [MANUAL COPY]" -ForegroundColor Yellow
 }
 
 # -------------------------------------------------------------
