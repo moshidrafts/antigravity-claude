@@ -107,6 +107,61 @@ Once installed, simply type **`agy-settings`** from **any terminal on your PC** 
 
 ---
 
+## ⚡ Complete Slash Command (`/`) Cheat Sheet
+
+Type `/` in Claude Code anytime to autocomplete any of these commands. Everything is organized into dedicated categories:
+
+### 🏗️ Architecture, Planning & Token Compression (Native Skills)
+| Command | How to Use | What It Does & Behavioral Impact |
+| :--- | :--- | :--- |
+| **`/antigravity`** | `/antigravity` | Re-engages strict zero-fluff engineering protocol, high-density formatting, and surgical chunk-diff edits (70–85% token savings). |
+| **`/antigravity-planner`**| `/antigravity-planner` | Forces ripple impact analysis, interactive Mermaid architecture diagrams, and a hard approval gate before writing code. |
+| **`/caveman`** | `/caveman [full\|ultra\|lite\|stop]` | Slashes output tokens by 60–75% using ultra-compressed technical shorthand (strips all conversational filler while preserving exact code). |
+| **`/graphify`** | `/graphify .` or `/graphify query "..."` | Parses codebase into Tree-sitter AST knowledge graph; traverses call graphs and imports without burning tokens grepping. |
+
+### 🛡️ Rigorous Engineering Verification (Native Skills)
+| Command | How to Use | What It Does & Behavioral Impact |
+| :--- | :--- | :--- |
+| **`/test-driven-development`** | `/test-driven-development` | Enforces true red/green TDD: writes a failing test first, executes to prove failure, then writes minimal passing code. |
+| **`/systematic-debugging`** | `/systematic-debugging` | Runs strict 4-phase root-cause isolation (observe, hypothesize, isolate, verify) to stop random trial-and-error guessing. |
+| **`/verification-before-completion`** | `/verification-before-completion` | Prohibits declaring work "done" without executing concrete terminal test/build verification commands with exit code 0. |
+
+### 🎨 Visual Design & Rich Document Generation (Native Skills)
+| Command | How to Use | What It Does & Behavioral Impact |
+| :--- | :--- | :--- |
+| **`/frontend-design`** | `/frontend-design` | Eradicates "AI slop" with bespoke typography pairings, intentional palettes, micro-interactions, and boutique studio aesthetics. |
+| **`/web-artifacts-builder`**| `/web-artifacts-builder` | Complete production blueprint for multi-component **React 18 + Tailwind CSS + Lucide + shadcn/ui** interactive applications. |
+| **`/xlsx`** | `/xlsx` | Programmatic Excel spreadsheet engine: computes formulas (`SUM`, `VLOOKUP`), formats tables, and injects charts with zero XML corruption. |
+| **`/pdf`** | `/pdf` | Structural PDF extraction: extracts tabular coordinates, splits/merges pages, rotates, and runs OCR workflows. |
+| **`/docx`** | `/docx` | Generates professional Word documents with typography hierarchies, automated tables of contents, callouts, and corporate styling. |
+
+### 🚀 Git, Code Review & Developer Utilities (Plugins)
+| Command | How to Use | What It Does & Source |
+| :--- | :--- | :--- |
+| **`/code-review`** | `/code-review` | Audits uncommitted changes or branch diffs against review standards and best practices (`@claude-plugins-official`). |
+| **`/code-simplifier`** | `/code-simplifier` | Refactoring agent that eliminates over-engineering, dead abstractions, and bloat (`@claude-plugins-official`). |
+| **`/commit`** | `/commit` | Generates clean, conventional git commit messages based on staged changes (`@claude-plugins-official`). |
+| **`/commit-push-pr`** | `/commit-push-pr` | Creates a conventional commit, pushes the current branch, and opens a GitHub Pull Request (`@claude-plugins-official`). |
+| **`/clean_gone`** | `/clean_gone` | Prunes and deletes local git branches whose remotes have already been merged (`@claude-plugins-official`). |
+| **`/skill-creator`** | `/skill-creator` | Anthropic's official test and benchmarking harness for authoring, evaluating, and grading custom skills. |
+| **`/claude-security`** | `/claude-security` | Scans repository for vulnerabilities, analyzes blast radius, and drafts automated security patches. |
+| **`/build-mcp-server`** | `/build-mcp-server` | Scaffolds and verifies Model Context Protocol (MCP) server tools, resources, and schemas (`mcp-server-dev`). |
+| **`/create-docker-mcp-tunnel`** | `/create-docker-mcp-tunnel` | Sets up a secure Docker MCP tunnel for containerized development environments (`mcp-tunnels`). |
+| **`/new-sdk-app`** | `/new-sdk-app` | Scaffolds a new TypeScript or Python agent application using the official Anthropic Agent SDK (`agent-sdk-dev`). |
+
+### 🎬 Programmatic Video Suite (Remotion Skills in `~/.agents/skills/`)
+| Command | How to Use | What It Does & Behavioral Impact |
+| :--- | :--- | :--- |
+| **`/remotion-create`** | `/remotion-create` | Scaffolds new Remotion React video compositions, roots, and project configurations. |
+| **`/remotion-captions`** | `/remotion-captions` | Word-level animated subtitle timing, SRT parsing, kinetic typography, and caption styling. |
+| **`/remotion-docs`** | `/remotion-docs` | Queries Remotion animation timing (`spring`, `interpolate`), frame calculations, and hooks. |
+| **`/remotion-interactivity`** | `/remotion-interactivity` | Embeds interactive video players and clickable canvas overlays in React apps. |
+| **`/remotion-render`** | `/remotion-render` | Headless CLI rendering, AWS Lambda distributed render pipelines, and Docker ffmpeg configs. |
+| **`/remotion-studio`** | `/remotion-studio` | Configures the Remotion Studio preview player, timeline navigation, and audio tracks. |
+| **`/remotion-*`** | `/remotion-best-practices`, etc. | Maps, markup, multimedia, SaaS templates, and version upgrade guides. |
+
+---
+
 ## 🛠️ Complete Feature & Skill Reference
 
 Here is the complete breakdown of every optimization, companion tool, and bundled skill in the suite.
