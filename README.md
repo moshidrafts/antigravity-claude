@@ -27,10 +27,9 @@
 ### Windows (1-Click Setup)
 1. Clone or download this repository:
    ```bash
-   git clone https://github.com/moshidrafts/antigravity-claude-code.git
+   git clone https://github.com/moshidrafts/antigravity-claude.git
    ```
-   *(Note: `antigravity-claude` automatically redirects here)*
-2. Double-click **`setup-antigravity-claude.bat`**.
+   2. Double-click **`setup-antigravity-claude.bat`**.
 3. **What happens automatically:**
    - Deploys all 12 skills to `~/.claude/skills/` and stores an offline copy in `~/.claude/skills-catalog/`.
    - Injects the global `CLAUDE.md` operating directive. *(If you already have an existing `CLAUDE.md`, the installer will ask whether to **[O]verwrite** with a `.bak` backup, **[A]ppend**, or **[C]ancel**!)*
@@ -42,7 +41,7 @@
 
 ### macOS & Linux (1-Line Command)
 ```bash
-git clone https://github.com/moshidrafts/antigravity-claude-code.git && cd antigravity-claude-code && chmod +x install.sh && ./install.sh
+git clone https://github.com/moshidrafts/antigravity-claude.git && cd antigravity-claude && chmod +x install.sh && ./install.sh
 ```
 
 ---
